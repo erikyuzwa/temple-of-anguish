@@ -1,6 +1,5 @@
 
 var Game = {
-  _version: '0.7.5',
 	_display: null,
   _currentScreen: null,
   _screenWidth: 80,

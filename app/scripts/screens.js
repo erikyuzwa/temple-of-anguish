@@ -20,10 +20,6 @@ Game.Screen.startScreen = {
       display.drawText(hw - 3, hh - 7, '%c{orangeRed}by');
       display.drawText(hw - 6, hh - 6, '%c{deepSkyBlue}@eyuzwa');
       display.drawText(hw - 12, hh + 6, '%c{yellow}Press [Enter] to enter!');
-
-      // render our version tag
-      display.drawText(w - 15, h - 3, '%c{yellow}v' + Game._version);
-
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
