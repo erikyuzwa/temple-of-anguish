@@ -1,6 +1,6 @@
 {
   "name": "templeofanguish",
-  "version": "0.7.5",
+  "version": "0.8.0",
   "description": "a roguelike originally built for 7DRL-2016",
   "main": "app/main.js",
   "scripts": {
@@ -10,14 +10,14 @@
     "test": "grunt test"
   },
   "authors": [
-    "erikyuzwa <erik@erikyuzwa.com>"
+    "erikyuzwa <erikyuzwa@gmail.com>"
   ],
   "license": "MIT",
   "devDependencies": {
-    "asar": "^0.14.5",
+    "asar": "^1.0.0",
     "cssmin": "^0.4.3",
-    "electron": "^3.0.4",
-    "electron-packager": "^12.2.0",
+    "electron": "^4.1.1",
+    "electron-packager": "^13.1.1",
     "grunt": "^1.0.1",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-concurrent": "^2.3.1",
@@ -35,13 +35,18 @@
     "grunt-electron": "^9.0.1",
     "grunt-filerev": "^2.3.1",
     "grunt-newer": "^1.1.2",
-    "grunt-svgmin": "^5.0.0",
+    "grunt-svgmin": "^6.0.0",
     "grunt-usemin": "^3.1.1",
     "grunt-wiredep": "^3.0.1",
     "jit-grunt": "^0.10.0",
     "jshint-stylish": "^2.2.1",
-    "load-grunt-config": "^0.19.2",
+    "load-grunt-config": "^1.0.1",
     "serve-static": "^1.11.1",
-    "time-grunt": "^1.4.0"
+    "time-grunt": "^2.0.0"
+  },
+  "dependencies": {
+    "howler": "^2.1.1",
+    "jquery": "^3.3.1",
+    "rot-js": "^2.0.3"
   }
 }
