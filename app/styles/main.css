@@ -1,0 +1,15 @@
+#body {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  cursor: none;
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+}
+
+.container #gameContainer {
+    text-align: center;
+}

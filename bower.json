@@ -1,0 +1,16 @@
+{
+  "name": "templeofanguish",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "rot.js": "^0.6.0",
+    "howler.js": "^2.0.15",
+    "jquery": "^3.3.1"
+  }
+}
