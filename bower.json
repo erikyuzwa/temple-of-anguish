@@ -10,7 +10,7 @@
   ],
   "dependencies": {
     "rot.js": "^0.6.0",
-    "howler.js": "^2.0.15",
-    "jquery": "^3.3.1"
+    "howler.js": "^2.1.2",
+    "jquery": "^3.4.0"
   }
 }

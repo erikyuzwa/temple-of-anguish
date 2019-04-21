@@ -1,4 +1,4 @@
-
+'use strict';
 const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
@@ -10,7 +10,6 @@ const pkg = require('./package.json');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var mainWindow;
-
 
 function createWindow() {
 
@@ -32,7 +31,7 @@ function createWindow() {
   mainWindow.setMenu(null);
 
   // TODO replace with our app landing page
-  mainWindow.setTitle('Temple of Anguish :: @eyuzwa :: ' + pkg.version);
+  mainWindow.setTitle('Temple of Anguish :: wazoo.itch.io :: ' + pkg.version);
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${ __dirname }/index.html`);
@@ -49,7 +48,6 @@ function createWindow() {
   });
 
 }
-
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {

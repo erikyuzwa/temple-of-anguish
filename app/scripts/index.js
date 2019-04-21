@@ -1,12 +1,6 @@
 
 $(function() {
 
-  var sound = new Howl({
-    src: ['audio/Visager_-_02_-_Castle_Theme.mp3'],
-    loop: true,
-    autoplay: true
-  });
-
   // Initialize the game
   Game.init();
 

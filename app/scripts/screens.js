@@ -19,7 +19,7 @@ Game.Screen.startScreen = {
       display.drawText(hw - 10, hh - 8, '%c{yellow}Temple of Anguish');
       display.drawText(hw - 3, hh - 7, '%c{orangeRed}by');
       display.drawText(hw - 6, hh - 6, '%c{deepSkyBlue}@eyuzwa');
-      display.drawText(hw - 12, hh + 6, '%c{yellow}Press [Enter] to enter!');
+      display.drawText(hw - 12, hh + 6, '%c{yellow}Press [Enter] to play!');
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
@@ -54,6 +54,7 @@ Game.Screen.playScreen = {
     },
 
     render: function(display) {
+
       // Render subscreen if there is one
       if (this._subScreen) {
         this._subScreen.render(display);
@@ -207,6 +208,7 @@ Game.Screen.playScreen = {
     },
 
     handleInput: function(inputType, inputData) {
+
         // If the game is over, enter will bring the user to the losing screen.
         if (this._gameEnded) {
             if (inputType === 'keydown' && inputData.keyCode === ROT.VK_RETURN) {
@@ -220,6 +222,7 @@ Game.Screen.playScreen = {
             this._subScreen.handleInput(inputType, inputData);
             return;
         }
+
         if (inputType === 'keydown') {
           // Movement
           if (inputData.keyCode === ROT.VK_LEFT) {
