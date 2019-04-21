@@ -92,10 +92,10 @@ around to tackling actual story integration during the initial 7DRL period.
 * [jsrogue](https://github.com/jokeofweek/jsrogue)
 * [ROT.js](http://ondras.github.io/rot.js/hp/)
 * [Howler.js](http://goldfirestudios.com/blog/104/howler.js-Modern-Web-Audio-Javascript-Library)
-* [Free Music Archive](http://freemusicarchive.org/music/Visager/Songs_From_An_Unmade_World/Visager_-_Songs_from_an_Unmade_World_-_02_Castle_Theme)
 
 ## changelog
 
+* v0.8.0 - updated electron and some other dependencies. removed single background music track
 * v0.5.0 - updated build infrastructure
 * v0.4.1 - minor update to help screen
 * v0.4.0 - initial release
