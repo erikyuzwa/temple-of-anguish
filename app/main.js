@@ -31,7 +31,7 @@ function createWindow() {
   mainWindow.setMenu(null);
 
   // TODO replace with our app landing page
-  mainWindow.setTitle('Temple of Anguish :: wazoo.itch.io :: ' + pkg.version);
+  mainWindow.setTitle('Temple of Anguish :: tinypixelgames.itch.io :: ' + pkg.version);
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${ __dirname }/index.html`);
@@ -71,7 +71,7 @@ app.on('browser-window-focus', function() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
-  
+
   createWindow();
 
   app.focus();
