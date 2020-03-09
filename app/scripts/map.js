@@ -120,7 +120,7 @@ Game.Map.prototype.getEntityAt = function(x, y, z){
 };
 Game.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY,
                                                       centerZ, radius) {
-    results = [];
+    var results = [];
     // Determine our bounds
     var leftX = centerX - radius;
     var rightX = centerX + radius;
@@ -131,7 +131,7 @@ Game.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY,
         var entity = this._entities[key];
         if (entity.getX() >= leftX && entity.getX() <= rightX &&
             entity.getY() >= topY && entity.getY() <= bottomY &&
-            entity.getZ() == centerZ) {
+            entity.getZ() === centerZ) {
             results.push(entity);
         }
     }

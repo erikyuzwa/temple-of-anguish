@@ -408,7 +408,7 @@ Game.sendMessageNearby = function(map, centerX, centerY, centerZ, message, args)
         message = vsprintf(message, args);
     }
     // Get the nearby entities
-    entities = map.getEntitiesWithinRadius(centerX, centerY, centerZ, 5);
+    var entities = map.getEntitiesWithinRadius(centerX, centerY, centerZ, 5) || [];
     // Iterate through nearby entities, sending the message if
     // they can receive it.
     for (var i = 0; i < entities.length; i++) {
