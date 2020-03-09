@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 // Player template
 Game.PlayerTemplate = {
     name: 'avatar (you)',
@@ -35,7 +37,7 @@ Game.EntityRepository.define('bat', {
     maxHp: 5,
     attackValue: 4,
     speed: 2000,
-    mixins: [Game.EntityMixins.TaskActor, 
+    mixins: [Game.EntityMixins.TaskActor,
              Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
              Game.EntityMixins.CorpseDropper,
              Game.EntityMixins.ExperienceGainer, Game.EntityMixins.RandomStatGainer]
@@ -68,7 +70,7 @@ Game.EntityRepository.define('kobold', {
 });
 
 Game.EntityRepository.define('giant zombie', {
-    name: 'giant zombie', 
+    name: 'giant zombie',
     character: 'Z',
     foreground: 'teal',
     maxHp: 30,

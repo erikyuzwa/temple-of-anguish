@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.ItemMixins = {};
 
 // Edible mixins

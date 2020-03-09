@@ -1,6 +1,6 @@
 {
   "name": "templeofanguish",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "description": "a roguelike originally built for 7DRL-2016",
   "main": "app/main.js",
   "scripts": {
@@ -10,14 +10,14 @@
     "test": "grunt test"
   },
   "authors": [
-    "erik <erik@tinypixelgames.com>"
+    "erik <erik@wazoogames.com>"
   ],
   "license": "MIT",
   "devDependencies": {
     "asar": "^1.0.0",
     "cssmin": "^0.4.3",
-    "electron": "^7.1.7",
-    "electron-packager": "^14.1.1",
+    "electron": "^8.1.0",
+    "electron-packager": "^14.2.1",
     "grunt": "^1.0.1",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-concurrent": "^2.3.1",

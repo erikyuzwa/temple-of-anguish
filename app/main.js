@@ -31,7 +31,7 @@ function createWindow() {
   mainWindow.setMenu(null);
 
   // TODO replace with our app landing page
-  mainWindow.setTitle('Temple of Anguish :: tinypixelgames.itch.io :: ' + pkg.version);
+  mainWindow.setTitle('Temple of Anguish :: wazoogames.itch.io :: ' + pkg.version);
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${ __dirname }/index.html`);

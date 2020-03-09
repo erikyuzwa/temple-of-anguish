@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.Geometry = {
     getLine: function(startX, startY, endX, endY) {
         var points = [];

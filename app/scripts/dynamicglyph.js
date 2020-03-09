@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.DynamicGlyph = function(properties) {
     properties = properties || {};
     // Call the glyph's construtor with our set of properties
@@ -19,7 +21,7 @@ Game.DynamicGlyph = function(properties) {
         // also make sure not to override a property that
         // already exists on the entity.
         for (var key in mixins[i]) {
-            if (key != 'init' && key != 'name' && key != 'listeners' 
+            if (key != 'init' && key != 'name' && key != 'listeners'
                 && !this.hasOwnProperty(key)) {
                 this[key] = mixins[i][key];
             }
@@ -108,7 +110,7 @@ Game.DynamicGlyph.prototype.details = function() {
         for (var i = 0, l = detailGroups.length; i < l; i++) {
             if (detailGroups[i]) {
                 for (var j = 0; j < detailGroups[i].length; j++) {
-                    details.push(detailGroups[i][j].key + ': ' +  detailGroups[i][j].value);          
+                    details.push(detailGroups[i][j].key + ': ' +  detailGroups[i][j].value);
                 }
             }
         }

@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 // A repository has a name and a constructor. The constructor is used to create
 // items in the repository.
 Game.Repository = function(name, ctor) {

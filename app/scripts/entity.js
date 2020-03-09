@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.Entity = function(properties) {
     properties = properties || {};
     // Call the dynamic glyph's construtor with our set of properties
@@ -84,20 +86,20 @@ Game.Entity.prototype.tryMove = function(x, y, z, map) {
         }
     // If an entity was present at the tile
     } else if (target) {
-        // An entity can only attack if the entity has the Attacker mixin and 
+        // An entity can only attack if the entity has the Attacker mixin and
         // either the entity or the target is the player.
-        if (this.hasMixin('Attacker') && 
+        if (this.hasMixin('Attacker') &&
             (this.hasMixin(Game.EntityMixins.PlayerActor) ||
              target.hasMixin(Game.EntityMixins.PlayerActor))) {
             this.attack(target);
             return true;
-        } 
-        // If not nothing we can do, but we can't 
+        }
+        // If not nothing we can do, but we can't
         // move to the tile
-        return false;        
+        return false;
     // Check if we can walk on the tile
     // and if so simply walk onto it
-    } else if (tile.isWalkable()) {        
+    } else if (tile.isWalkable()) {
         // Update the entity's position
         this.setPosition(x, y, z);
         // Notify the entity that there are items at this position
@@ -117,7 +119,7 @@ Game.Entity.prototype.tryMove = function(x, y, z, map) {
             map.dig(x, y, z);
             return true;
         }
-        // If not nothing we can do, but we can't 
+        // If not nothing we can do, but we can't
         // move to the tile
         return false;
     }

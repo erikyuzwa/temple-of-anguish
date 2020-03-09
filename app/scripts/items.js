@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.ItemRepository = new Game.Repository('items', Game.Item);
 
 Game.ItemRepository.define('apple', {

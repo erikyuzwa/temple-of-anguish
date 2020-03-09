@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.Map = function(tiles) {
     this._tiles = tiles;
     // Cache dimensions
@@ -113,7 +115,7 @@ Game.Map.prototype.getEntities = function() {
     return this._entities;
 };
 Game.Map.prototype.getEntityAt = function(x, y, z){
-    // Get the entity based on position key 
+    // Get the entity based on position key
     return this._entities[x + ',' + y + ',' + z];
 };
 Game.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY,
@@ -127,7 +129,7 @@ Game.Map.prototype.getEntitiesWithinRadius = function(centerX, centerY,
     // Iterate through our entities, adding any which are within the bounds
     for (var key in this._entities) {
         var entity = this._entities[key];
-        if (entity.getX() >= leftX && entity.getX() <= rightX && 
+        if (entity.getX() >= leftX && entity.getX() <= rightX &&
             entity.getY() >= topY && entity.getY() <= bottomY &&
             entity.getZ() == centerZ) {
             results.push(entity);
@@ -163,7 +165,7 @@ Game.Map.prototype.addEntity = function(entity) {
     // them to the scheduler
     if (entity.hasMixin('Actor')) {
        this._scheduler.add(entity, true);
-    } 
+    }
     // If the entity is the player, set the player.
     if (entity.hasMixin(Game.EntityMixins.PlayerActor)) {
         this._player = entity;
@@ -230,7 +232,7 @@ Game.Map.prototype.setItemsAt = function(x, y, z, items) {
 };
 
 Game.Map.prototype.addItem = function(x, y, z, item) {
-    // If we already have items at that position, simply append the item to the 
+    // If we already have items at that position, simply append the item to the
     // list of items.
     var key = x + ',' + y + ',' + z;
     if (this._items[key]) {

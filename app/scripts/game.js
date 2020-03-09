@@ -1,3 +1,4 @@
+'use strict';
 
 var Game = {
 	_display: null,

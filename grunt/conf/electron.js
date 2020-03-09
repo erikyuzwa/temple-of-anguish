@@ -12,7 +12,7 @@ module.exports = function(grunt) {
       dir: 'build',
       name: pkg.name,
       out: 'dist',
-      electronVersion: '7.1.7',
+      electronVersion: '8.1.0',
       appVersion: pkg.version,
       overwrite: true,
       arch: 'x64'
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
     // `grunt electron:darwin`
     darwin: {
       options: {
-        appBundleId: 'com.tinypixelgames.' + pkg.name,
+        appBundleId: 'com.wazoogames.' + pkg.name,
         appCategoryType: 'games',
         platform: 'darwin'
       }
