@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.extend = function(src, dest) {
     // Create a copy of the source.
     var result = {};

@@ -1,4 +1,5 @@
-
+'use strict';
+/* globals Game */
 $(function() {
 
   // Initialize the game

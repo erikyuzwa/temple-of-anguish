@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.Builder = function(width, height, depth) {
     this._width = width;
     this._height = height;
@@ -163,7 +165,7 @@ Game.Builder.prototype._findRegionOverlaps = function(z, r1, r2) {
     return matches.randomize();
 };
 
-// This tries to connect two regions by calculating 
+// This tries to connect two regions by calculating
 // where they overlap and adding stairs
 Game.Builder.prototype._connectRegions = function(z, r1, r2) {
     var overlap = this._findRegionOverlaps(z, r1, r2);
@@ -195,7 +197,7 @@ Game.Builder.prototype._connectAllRegions = function() {
                 if (this._tiles[z][x][y] == Game.Tile.floorTile &&
                     this._tiles[z+1][x][y] == Game.Tile.floorTile &&
                     !connected[key]) {
-                    // Since both tiles are floors and we haven't 
+                    // Since both tiles are floors and we haven't
                     // already connected the two regions, try now.
                     this._connectRegions(z, this._regions[z][x][y],
                         this._regions[z+1][x][y]);

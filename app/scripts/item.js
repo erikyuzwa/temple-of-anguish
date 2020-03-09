@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.Item = function(properties) {
     properties = properties || {};
     // Call the dynamic glyph's construtor with our set of properties

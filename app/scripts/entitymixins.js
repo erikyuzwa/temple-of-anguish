@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 // Create our Mixins namespace
 Game.EntityMixins = {};
 
@@ -34,7 +36,7 @@ Game.EntityMixins.FungusActor = {
     init: function() {
         this._growthsRemaining = 5;
     },
-    act: function() { 
+    act: function() {
         // Check if we are going to try growing this turn
         if (this._growthsRemaining > 0) {
             if (Math.random() <= 0.02) {
@@ -52,7 +54,7 @@ Game.EntityMixins.FungusActor = {
                                                    this.getY() + yOffset,
                                                    this.getZ())) {
                         var entity = Game.EntityRepository.create('fungus');
-                        entity.setPosition(this.getX() + xOffset, this.getY() + yOffset, 
+                        entity.setPosition(this.getX() + xOffset, this.getY() + yOffset,
                             this.getZ());
                         this.getMap().addEntity(entity);
                         this._growthsRemaining--;
@@ -72,7 +74,7 @@ Game.EntityMixins.TaskActor = {
     groupName: 'Actor',
     init: function(template) {
         // Load tasks
-        this._tasks = template['tasks'] || ['wander']; 
+        this._tasks = template['tasks'] || ['wander'];
     },
     act: function() {
         // Iterate through all our tasks
@@ -97,7 +99,7 @@ Game.EntityMixins.TaskActor = {
         var player = this.getMap().getPlayer();
 
         // If we are adjacent to the player, then attack instead of hunting.
-        var offsets = Math.abs(player.getX() - this.getX()) + 
+        var offsets = Math.abs(player.getX() - this.getX()) +
             Math.abs(player.getY() - this.getY());
         if (offsets === 1) {
             if (this.hasMixin('Attacker')) {
@@ -204,7 +206,7 @@ Game.EntityMixins.Attacker = {
     },
     getAttackValue: function() {
         var modifier = 0;
-        // If we can equip items, then have to take into 
+        // If we can equip items, then have to take into
         // consideration weapon and armor
         if (this.hasMixin(Game.EntityMixins.Equipper)) {
             if (this.getWeapon()) {
@@ -232,9 +234,9 @@ Game.EntityMixins.Attacker = {
             var max = Math.max(0, attack - defense);
             var damage = 1 + Math.floor(Math.random() * max);
 
-            Game.sendMessage(this, 'You strike the %s for %d damage!', 
+            Game.sendMessage(this, 'You strike the %s for %d damage!',
                 [target.getName(), damage]);
-            Game.sendMessage(target, 'The %s strikes you for %d damage!', 
+            Game.sendMessage(target, 'The %s strikes you for %d damage!',
                 [this.getName(), damage]);
 
             target.takeDamage(this, damage);
@@ -253,14 +255,14 @@ Game.EntityMixins.Destructible = {
     init: function(template) {
         this._maxHp = template['maxHp'] || 10;
         // We allow taking in health from the template incase we want
-        // the entity to start with a different amount of HP than the 
+        // the entity to start with a different amount of HP than the
         // max specified.
         this._hp = template['hp'] || this._maxHp;
         this._defenseValue = template['defenseValue'] || 0;
     },
     getDefenseValue: function() {
         var modifier = 0;
-        // If we can equip items, then have to take into 
+        // If we can equip items, then have to take into
         // consideration weapon and armor
         if (this.hasMixin(Game.EntityMixins.Equipper)) {
             if (this.getWeapon()) {
@@ -374,8 +376,8 @@ Game.EntityMixins.Sight = {
         // Compute the FOV and check if the coordinates are in there.
         var found = false;
         this.getMap().getFov(this.getZ()).compute(
-            this.getX(), this.getY(), 
-            this.getSightRadius(), 
+            this.getX(), this.getY(),
+            this.getSightRadius(),
             function(x, y, radius, visibility) {
                 if (x === otherX && y === otherY) {
                     found = true;
@@ -387,7 +389,7 @@ Game.EntityMixins.Sight = {
 
 // Message sending functions
 Game.sendMessage = function(recipient, message, args) {
-    // Make sure the recipient can receive the message 
+    // Make sure the recipient can receive the message
     // before doing any work.
     if (recipient.hasMixin(Game.EntityMixins.MessageRecipient)) {
         // If args were passed, then we format the message, else
@@ -464,7 +466,7 @@ Game.EntityMixins.InventoryHolder = {
         var added = 0;
         // Iterate through all indices.
         for (var i = 0; i < indices.length; i++) {
-            // Try to add the item. If our inventory is not full, then splice the 
+            // Try to add the item. If our inventory is not full, then splice the
             // item out of the list of items. In order to fetch the right item, we
             // have to offset the number of items already added.
             if (this.addItem(mapItems[indices[i]  - added])) {
@@ -486,7 +488,7 @@ Game.EntityMixins.InventoryHolder = {
             if (this._map) {
                 this._map.addItem(this.getX(), this.getY(), this.getZ(), this._items[i]);
             }
-            this.removeItem(i);      
+            this.removeItem(i);
         }
     }
 };
@@ -550,7 +552,7 @@ Game.EntityMixins.CorpseDropper = {
                         name: this._name + ' corpse',
                         foreground: this._foreground
                     }));
-            }    
+            }
         }
     }
 };
@@ -603,7 +605,7 @@ Game.EntityMixins.ExperienceGainer = {
             this._statOptions.push(['Increase attack value', this.increaseAttackValue]);
         }
         if (this.hasMixin('Destructible')) {
-            this._statOptions.push(['Increase defense value', this.increaseDefenseValue]);   
+            this._statOptions.push(['Increase defense value', this.increaseDefenseValue]);
             this._statOptions.push(['Increase max health', this.increaseMaxHp]);
         }
         if (this.hasMixin('Sight')) {

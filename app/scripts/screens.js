@@ -1,3 +1,5 @@
+'use strict';
+/* globals Game */
 Game.Screen = {};
 
 // Define our initial start screen
@@ -18,7 +20,7 @@ Game.Screen.startScreen = {
       // Render our prompt to the screen
       display.drawText(hw - 10, hh - 8, '%c{yellow}Temple of Anguish');
       display.drawText(hw - 3, hh - 7, '%c{orangeRed}by');
-      display.drawText(hw - 6, hh - 6, '%c{deepSkyBlue}@tiny_pixel');
+      display.drawText(hw - 6, hh - 6, '%c{deepSkyBlue}Wazoo Games');
       display.drawText(hw - 12, hh + 6, '%c{yellow}Press [Enter] to play!');
     },
     handleInput: function(inputType, inputData) {

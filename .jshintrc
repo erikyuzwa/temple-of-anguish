@@ -20,7 +20,8 @@
   "smarttabs": true,
   "globals": {
     "angular": false,
-    "module": false
+    "module": false,
+    "ROT": false
   },
   "white":true
 }
