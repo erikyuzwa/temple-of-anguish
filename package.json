@@ -1,6 +1,6 @@
 {
   "name": "templeofanguish",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "a roguelike originally built for 7DRL-2016",
   "main": "app/main.js",
   "scripts": {
