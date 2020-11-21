@@ -12,10 +12,10 @@ module.exports = function(grunt) {
       dir: 'build',
       name: pkg.name,
       out: 'dist',
-      electronVersion: '11.0.2',
       appVersion: pkg.version,
       overwrite: true,
-      arch: 'x64'
+      arch: 'x64',
+      prune: true
     },
 
     // `grunt electron:darwin`
