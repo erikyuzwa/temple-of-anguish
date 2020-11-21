@@ -121,6 +121,42 @@ module.exports = function(grunt) {
       }
     },
 
+    // Reads HTML for usemin blocks to enable smart builds that automatically
+    // concat, minify and revision files. Creates configurations in memory so
+    // additional tasks can operate on them
+    useminPrepare: {
+      html: 'app/index.html',
+      options: {
+        dest: '<%= cfg.build %>',
+        flow: {
+          html: {
+            steps: {
+              js: ['concat', 'uglifyjs'],
+              css: ['cssmin']
+            },
+            post: {}
+          }
+        }
+      }
+    },
+
+    // Performs rewrites based on filerev and the useminPrepare configuration
+    usemin: {
+      html: ['app/{,*/}*.html'],
+      css: ['app/styles/{,*/}*.css'],
+      js: ['app/scripts/{,*/}*.js'],
+      options: {
+        //assetsDirs: [
+        //  '<%= cfg.build %>',
+        //  '<%= cfg.build %>/images',
+        //  '<%= cfg.build %>/styles'
+        //],
+        patterns: {
+          js: [[/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
+        }
+      }
+    },
+
     watch: {
       // `grunt watch:js`
       js: {
@@ -148,7 +184,9 @@ module.exports = function(grunt) {
     grunt.task.run([
         'clean',
         'jshint',
-        'copy',
+        'useminPrepare',
+        // 'copy',
+        'usemin',
         'electron'
     ]);
   });
@@ -159,26 +197,4 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', 'build');
-
-  /*
-  require('load-grunt-config')(grunt, {
-    configPath: path.join(process.cwd(), 'grunt/conf'),
-    init: true,
-    jitGrunt: {
-      customTasksDir: 'grunt/tasks',
-      staticMappings: {
-        useminPrepare: 'grunt-usemin'
-      }
-    },
-    data: {
-      pkg: grunt.file.readJSON('./package.json'),
-      env: process.env
-    }
-  });
-
-  // we need a single task in the Gruntfile
-  grunt.registerTask('default', 'Grunt.', function() {
-    grunt.log.ok(grunt.config('pkg.name'));
-    grunt.task.run(['serve']);
-  });*/
 };
