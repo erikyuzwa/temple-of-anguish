@@ -12,3 +12,4 @@ atlassian-ide-plugin.xml
 RemoteSystemsTempFiles/
 npm-debug.log
 package-lock.json
+yarn.lock
