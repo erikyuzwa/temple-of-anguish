@@ -30,7 +30,8 @@ module.exports = function(grunt) {
       dev: {
         options: {
           base: 'build',
-          keepalive: true
+          livereload: true
+          // keepalive: true
         }
       }
     },
@@ -128,18 +129,6 @@ module.exports = function(grunt) {
         options: {
           livereload: '35729'
         }
-      },
-
-      // `grunt watch:livereload`
-      livereload: {
-        options: {
-          livereload: '35729'
-        },
-        files: [
-          'app/{,*/}*.html',
-          '.tmp/styles/{,*/}*.css',
-          'app/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-        ]
       }
     }
 
@@ -147,26 +136,26 @@ module.exports = function(grunt) {
 
   // `grunt build:darwin`
   grunt.registerTask('build:darwin', 'compile and minify source to build folder for mac.', function() {
-    grunt.task.run(['clean', 'copy:dist', 'electron:darwin']);
+    grunt.task.run(['clean', 'copy', 'electron:darwin']);
   });
 
   // `grunt build:win`
   grunt.registerTask('build:win', 'compile and minify source to build folder for windows.', function() {
-    grunt.task.run(['clean', 'copy:dist', 'electron:win32']);
+    grunt.task.run(['clean', 'copy', 'electron:win32']);
   });
 
   grunt.registerTask('build', 'build for all platforms', function() {
     grunt.task.run([
         'clean',
         'jshint',
-        'copy:dist',
+        'copy',
         'electron'
     ]);
   });
 
   // `grunt serve`
   grunt.registerTask('serve', 'lint and host the source', function() {
-    grunt.task.run(['jshint:source', 'connect:dev', 'watch']);
+    grunt.task.run(['jshint', 'connect:dev', 'watch']);
   });
 
   grunt.registerTask('default', 'build');
