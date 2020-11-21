@@ -30,6 +30,15 @@ module.exports = function(grunt) {
     // `grunt electron:win32`
     win32: {
       options: {
+        arch: 'x86',
+        versionString: pkg.version,
+        platform: 'win32'
+      }
+    },
+
+    win64: {
+      options: {
+        arch: 'x64',
         versionString: pkg.version,
         platform: 'win32'
       }
