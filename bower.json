@@ -9,8 +9,6 @@
     "tests"
   ],
   "dependencies": {
-    "rot.js": "^0.6.0",
-    "howler.js": "^2.1.2",
-    "jquery": "^3.4.0"
+    "rot.js": "^0.6.0"
   }
 }

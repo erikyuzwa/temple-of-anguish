@@ -1,5 +1,7 @@
 'use strict';
 /* globals Game */
+
+
 Game.Builder = function(width, height, depth) {
     this._width = width;
     this._height = height;

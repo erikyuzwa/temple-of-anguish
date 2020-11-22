@@ -7,6 +7,8 @@
       <meta name="description" content="temple of anguish - follow and discover the identity of the elusive cult leader">
       <meta name="author" content="@eyuzwa">
       <link rel="stylesheet" href="styles/main.css">
+
+       <meta http-equiv="Content-Security-Policy" content="default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; media-src *">
    </head>
    <body id="body">
        <div class="container">
@@ -14,8 +16,6 @@
          </div>
        </div>
 
-       <script src="bower_components/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
-       <script src="bower_components/howler.js/dist/howler.min.js" onload="window.Howler = module.exports;"></script>
        <script src="bower_components/rot.js/rot.js"></script>
 
        <script src="scripts/sprintf.min.js"></script>
