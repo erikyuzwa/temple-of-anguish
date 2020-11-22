@@ -29,8 +29,8 @@ module.exports = function(grunt) {
 
       dev: {
         options: {
-          base: 'build',
-          livereload: true
+          base: 'app',
+          livereload: true,
           // keepalive: true
         }
       }
@@ -121,47 +121,17 @@ module.exports = function(grunt) {
       }
     },
 
-    // Reads HTML for usemin blocks to enable smart builds that automatically
-    // concat, minify and revision files. Creates configurations in memory so
-    // additional tasks can operate on them
-    useminPrepare: {
-      html: 'app/index.html',
-      options: {
-        dest: '<%= cfg.build %>',
-        flow: {
-          html: {
-            steps: {
-              js: ['concat', 'uglifyjs'],
-              css: ['cssmin']
-            },
-            post: {}
-          }
-        }
-      }
-    },
-
-    // Performs rewrites based on filerev and the useminPrepare configuration
-    usemin: {
-      html: ['app/{,*/}*.html'],
-      css: ['app/styles/{,*/}*.css'],
-      js: ['app/scripts/{,*/}*.js'],
-      options: {
-        //assetsDirs: [
-        //  '<%= cfg.build %>',
-        //  '<%= cfg.build %>/images',
-        //  '<%= cfg.build %>/styles'
-        //],
-        patterns: {
-          js: [[/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
-        }
-      }
-    },
-
     watch: {
       // `grunt watch:js`
       js: {
         files: ['app/scripts/{,*/}*.js'],
         tasks: ['newer:jshint:all'],
+        options: {
+          livereload: '35729'
+        }
+      },
+      html: {
+        files: ['app/index.html'],
         options: {
           livereload: '35729'
         }
@@ -184,9 +154,7 @@ module.exports = function(grunt) {
     grunt.task.run([
         'clean',
         'jshint',
-        'useminPrepare',
-        // 'copy',
-        'usemin',
+        'copy',
         'electron'
     ]);
   });
