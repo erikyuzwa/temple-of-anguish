@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 
     connect: {
       options: {
-        port: 3000,
+        port: 8080,
         hostname: '0.0.0.0'
       },
 
@@ -71,7 +71,7 @@ module.exports = function(grunt) {
       // `grunt electron:darwin`
       darwin: {
         options: {
-          appBundleId: 'com.wazoogames.' + '<%= APP.pkg.name %>',
+          appBundleId: 'com.erikyuzwa.' + '<%= APP.pkg.name %>',
           appCategoryType: 'games',
           platform: 'darwin'
         }
