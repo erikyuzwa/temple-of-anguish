@@ -5,6 +5,8 @@ import Cave from './maps/cave'
 import Tile from './tile'
 import Entity from './entity'
 import PlayerTemplate from './player'
+import Geometry from "./geometry";
+import {vsprintf} from 'sprintf-js'
 
 const Screen = {};
 
@@ -52,7 +54,12 @@ Screen.playScreen = {
       // Create our map from the tiles and player
       this._player = new Entity(PlayerTemplate);
       var tiles = new Builder(width, height, depth).getTiles();
-      var map = new Cave(tiles, this._player);
+      //var map = new Cave(tiles, this._player);
+      const map = new Cave()
+      map.setPlayer(this._player)
+      map.buildFromTiles(tiles)
+      map.build()
+
       // Start the map's engine
       map.getEngine().start();
     },
@@ -716,7 +723,7 @@ Screen.TargetBasedScreen.prototype.render = function(display) {
     Screen.playScreen.renderTiles.call(Screen.playScreen, display);
 
     // Draw a line from the start to the cursor.
-    var points = Game.Geometry.getLine(this._startX, this._startY, this._cursorX,
+    var points = Geometry.getLine(this._startX, this._startY, this._cursorX,
         this._cursorY);
 
     // Render stars along the line.

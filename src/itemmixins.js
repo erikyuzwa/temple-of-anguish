@@ -1,11 +1,12 @@
 
 import Item from './item'
+import {ITEM_MIXIN_ENUMS} from "./enums";
 
 const ItemMixins = {};
 
 // Edible mixins
-ItemMixins.Edible = {
-    name: 'Edible',
+ItemMixins[ITEM_MIXIN_ENUMS.EDIBLE] = {
+    name: ITEM_MIXIN_ENUMS.EDIBLE,
     init: function(template) {
         // Number of points to add to hunger
         this._foodValue = template['foodValue'] || 5;
@@ -39,8 +40,8 @@ ItemMixins.Edible = {
 };
 
 // Equipment mixins
-ItemMixins.Equippable = {
-    name: 'Equippable',
+ItemMixins[ITEM_MIXIN_ENUMS.EQUIPPABLE] = {
+    name: ITEM_MIXIN_ENUMS.EQUIPPABLE,
     init: function(template) {
         this._attackValue = template['attackValue'] || 0;
         this._defenseValue = template['defenseValue'] || 0;

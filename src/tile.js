@@ -1,8 +1,10 @@
 
 //import Game from './game'
 import Glyph from './glyph'
-import {extend} from './utilities'
+//import {extend} from './utilities'
+import _ from 'lodash'
 
+/*
 const Tile = function(properties) {
     properties = properties || {};
     // Call the Glyph constructor with our properties
@@ -16,7 +18,7 @@ const Tile = function(properties) {
 };
 
 // Make tiles inherit all the functionality from glyphs
-extend(Tile, Glyph);
+//extend(Tile, Glyph);
 
 // Standard getters
 Tile.prototype.isWalkable = function() {
@@ -33,7 +35,40 @@ Tile.prototype.isBlockingLight = function() {
 
 Tile.prototype.getDescription = function() {
     return this._description;
-};
+};*/
+
+class Tile extends Glyph {
+    constructor(properties) {
+        super(Glyph);
+        properties = properties || {};
+
+        // Call the Glyph constructor with our properties
+        //Glyph.call(this, properties);
+        // Set up the properties. We use false by default.
+        this._walkable = properties['walkable'] || false;
+        this._diggable = properties['diggable'] || false;
+        this._blocksLight = (properties['blocksLight'] !== undefined) ?
+            properties['blocksLight'] : true;
+        this._description = properties['description'] || '';
+    }
+
+    isWalkable() {
+        return this._walkable;
+    }
+
+    isDiggable() {
+        return this._diggable;
+    }
+
+    isBlockingLight() {
+        return this._blocksLight;
+    }
+
+    getDescription() {
+        return this._description;
+    }
+}
+
 
 Tile.nullTile = new Tile({description: '(unknown)'});
 

@@ -1,37 +1,12 @@
-//'use strict';
-/* globals Game */
-/*
-Game.extend = function(src, dest) {
-    // Create a copy of the source.
-    var result = {};
-    for (var key in src) {
-        result[key] = src[key];
-    }
-    // Copy over all keys from dest
-    for (var key in dest) {
-        result[key] = dest[key];
-    }
-    return result;
-};*/
 
-const extend = function(src, dest) {
-    // Create a copy of the source.
-    var result = {};
-    for (var key in src) {
-        result[key] = src[key];
-    }
-    // Copy over all keys from dest
-    for (var key in dest) {
-        result[key] = dest[key];
-    }
-    return result;
-};
+import {vsprintf} from 'sprintf-js'
+import {ENTITY_MIXIN_ENUMS} from "./enums";
 
 // Message sending functions
 const sendMessage = function(recipient, message, args) {
     // Make sure the recipient can receive the message
     // before doing any work.
-    if (recipient.hasMixin(Game.EntityMixins.MessageRecipient)) {
+    if (recipient.hasMixin(ENTITY_MIXIN_ENUMS.MESSAGE_RECIPIENT)) {
         // If args were passed, then we format the message, else
         // no formatting is necessary
         if (args) {
@@ -52,7 +27,7 @@ const sendMessageNearby = function(map, centerX, centerY, centerZ, message, args
     // Iterate through nearby entities, sending the message if
     // they can receive it.
     for (var i = 0; i < entities.length; i++) {
-        if (entities[i].hasMixin(Game.EntityMixins.MessageRecipient)) {
+        if (entities[i].hasMixin(ENTITY_MIXIN_ENUMS.MESSAGE_RECIPIENT)) {
             entities[i].receiveMessage(message);
         }
     }
@@ -79,4 +54,4 @@ const getNeighborPositions = function(x, y) {
     return shuffled
 };
 
-export {extend, getNeighborPositions, sendMessage, sendMessageNearby}
+export {getNeighborPositions, sendMessage, sendMessageNearby}

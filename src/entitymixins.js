@@ -1,15 +1,17 @@
 
+import * as ROT from 'rot-js'
 import EntityRepository from './entities'
 import Game from './game'
 import Screen from './screens'
-import {extend, sendMessage, sendMessageNearby} from './utilities'
+import {sendMessage, sendMessageNearby} from './helpers'
+import {ENTITY_MIXIN_ENUMS} from "./enums";
 
 // Create our Mixins namespace
 const EntityMixins = {};
 
 // Main player's actor mixin
-EntityMixins.PlayerActor = {
-    name: 'PlayerActor',
+EntityMixins[ENTITY_MIXIN_ENUMS.PLAYER_ACTOR] = {
+    name: ENTITY_MIXIN_ENUMS.PLAYER_ACTOR,
     groupName: 'Actor',
     act: function() {
         if (this._acting) {
@@ -34,8 +36,8 @@ EntityMixins.PlayerActor = {
     }
 };
 
-EntityMixins.FungusActor = {
-    name: 'FungusActor',
+EntityMixins[ENTITY_MIXIN_ENUMS.FUNGUS_ACTOR] = {
+    name: ENTITY_MIXIN_ENUMS.FUNGUS_ACTOR,
     groupName: 'Actor',
     init: function() {
         this._growthsRemaining = 5;
@@ -73,8 +75,8 @@ EntityMixins.FungusActor = {
     }
 };
 
-EntityMixins.TaskActor = {
-    name: 'TaskActor',
+EntityMixins[ENTITY_MIXIN_ENUMS.TASK_ACTOR] = {
+    name: ENTITY_MIXIN_ENUMS.TASK_ACTOR,
     groupName: 'Actor',
     init: function(template) {
         // Load tasks
@@ -145,6 +147,7 @@ EntityMixins.TaskActor = {
     }
 };
 
+/*
 EntityMixins.GiantZombieActor = {
     init: function(template) {
         // Call the task actor init with the right tasks.
@@ -152,16 +155,10 @@ EntityMixins.GiantZombieActor = {
             'tasks' : ['growArm', 'spawnSlime', 'hunt', 'wander']
         }
 
-        extend(template, tasks)
 
-        EntityMixins.TaskActor.init.call(this, tasks)
-
-        /*
         EntityMixins.TaskActor.init.call(this, Game.extend(template, {
             'tasks' : ['growArm', 'spawnSlime', 'hunt', 'wander']
-        }));*/
-
-
+        }));
 
         // We only want to grow the arm once.
         this._hasGrownArm = false;
@@ -217,7 +214,7 @@ EntityMixins.GiantZombieActor = {
 }
 
 extend(EntityMixins.TaskActor, EntityMixins.GiantZombieActor)
-
+*/
 /*
 EntityMixins.GiantZombieActor = Game.extend(EntityMixins.TaskActor, {
     init: function(template) {
@@ -276,8 +273,8 @@ EntityMixins.GiantZombieActor = Game.extend(EntityMixins.TaskActor, {
 */
 
 // This signifies our entity can attack basic destructible enities
-EntityMixins.Attacker = {
-    name: 'Attacker',
+EntityMixins[ENTITY_MIXIN_ENUMS.ATTACKER] = {
+    name: ENTITY_MIXIN_ENUMS.ATTACKER,
     groupName: 'Attacker',
     init: function(template) {
         this._attackValue = template['attackValue'] || 1;
@@ -328,8 +325,8 @@ EntityMixins.Attacker = {
 };
 
 // This mixin signifies an entity can take damage and be destroyed
-EntityMixins.Destructible = {
-    name: 'Destructible',
+EntityMixins[ENTITY_MIXIN_ENUMS.DESTRUCTIBLE] = {
+    name: ENTITY_MIXIN_ENUMS.DESTRUCTIBLE,
     init: function(template) {
         this._maxHp = template['maxHp'] || 10;
         // We allow taking in health from the template incase we want
@@ -401,8 +398,8 @@ EntityMixins.Destructible = {
     }
 };
 
-EntityMixins.MessageRecipient = {
-    name: 'MessageRecipient',
+EntityMixins[ENTITY_MIXIN_ENUMS.MESSAGE_RECIPIENT] = {
+    name: ENTITY_MIXIN_ENUMS.MESSAGE_RECIPIENT,
     init: function(template) {
         this._messages = [];
     },
@@ -418,8 +415,8 @@ EntityMixins.MessageRecipient = {
 };
 
 // This signifies our entity posseses a field of vision of a given radius.
-EntityMixins.Sight = {
-    name: 'Sight',
+EntityMixins[ENTITY_MIXIN_ENUMS.SIGHT] = {
+    name: ENTITY_MIXIN_ENUMS.SIGHT,
     groupName: 'Sight',
     init: function(template) {
         this._sightRadius = template['sightRadius'] || 5;
@@ -497,8 +494,8 @@ Game.sendMessageNearby = function(map, centerX, centerY, centerZ, message, args)
     }
 };*/
 
-EntityMixins.InventoryHolder = {
-    name: 'InventoryHolder',
+EntityMixins[ENTITY_MIXIN_ENUMS.INVENTORY_HOLDER] = {
+    name: ENTITY_MIXIN_ENUMS.INVENTORY_HOLDER,
     init: function(template) {
         // Default to 10 inventory slots.
         var inventorySlots = template['inventorySlots'] || 10;
@@ -572,8 +569,8 @@ EntityMixins.InventoryHolder = {
     }
 };
 
-EntityMixins.FoodConsumer = {
-    name: 'FoodConsumer',
+EntityMixins[ENTITY_MIXIN_ENUMS.FOOD_CONSUMER] = {
+    name: ENTITY_MIXIN_ENUMS.FOOD_CONSUMER,
     init: function(template) {
         this._maxFullness = template['maxFullness'] || 1000;
         // Start halfway to max fullness if no default value
@@ -615,8 +612,8 @@ EntityMixins.FoodConsumer = {
     }
 };
 
-EntityMixins.CorpseDropper = {
-    name: 'CorpseDropper',
+EntityMixins[ENTITY_MIXIN_ENUMS.CORPSE_DROPPER] = {
+    name: ENTITY_MIXIN_ENUMS.CORPSE_DROPPER,
     init: function(template) {
         // Chance of dropping a cropse (out of 100).
         this._corpseDropRate = template['corpseDropRate'] || 100;
@@ -636,8 +633,8 @@ EntityMixins.CorpseDropper = {
     }
 };
 
-EntityMixins.Equipper = {
-    name: 'Equipper',
+EntityMixins[ENTITY_MIXIN_ENUMS.EQUIPPER] = {
+    name: ENTITY_MIXIN_ENUMS.EQUIPPER,
     init: function(template) {
         this._weapon = null;
         this._armor = null;
@@ -671,8 +668,8 @@ EntityMixins.Equipper = {
     }
 };
 
-EntityMixins.ExperienceGainer = {
-    name: 'ExperienceGainer',
+EntityMixins[ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER] = {
+    name: ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER,
     init: function(template) {
         this._level = template['level'] || 1;
         this._experience = template['experience'] || 0;
@@ -680,7 +677,6 @@ EntityMixins.ExperienceGainer = {
         this._statPoints = 0;
         // Determine what stats can be levelled up.
         this._statOptions = [];
-        console.log(this)
         if (this.hasMixin('Attacker')) {
             this._statOptions.push(['Increase attack value', this.increaseAttackValue]);
         }
@@ -759,25 +755,27 @@ EntityMixins.ExperienceGainer = {
     }
 };
 
-EntityMixins.RandomStatGainer = {
-    name: 'RandomStatGainer',
+EntityMixins[ENTITY_MIXIN_ENUMS.RANDOM_STAT_GAINER] = {
+    name: ENTITY_MIXIN_ENUMS.RANDOM_STAT_GAINER,
     groupName: 'StatGainer',
     listeners: {
         onGainLevel: function() {
-            var statOptions = this.getStatOptions();
+            const statOptions = this.getStatOptions();
             // Randomly select a stat option and execute the callback for each
             // stat point.
             while (this.getStatPoints() > 0) {
                 // Call the stat increasing function with this as the context.
-                statOptions.random()[1].call(this);
+                //statOptions.random()[1].call(this);
+                const ele = statOptions[Math.floor(Math.random() * statOptions.length)]
+                ele[1].call(this)
                 this.setStatPoints(this.getStatPoints() - 1);
             }
         }
     }
 };
 
-EntityMixins.PlayerStatGainer = {
-    name: 'PlayerStatGainer',
+EntityMixins[ENTITY_MIXIN_ENUMS.PLAYER_STAT_GAINER] = {
+    name: ENTITY_MIXIN_ENUMS.PLAYER_STAT_GAINER,
     groupName: 'StatGainer',
     listeners: {
         onGainLevel: function() {

@@ -35,6 +35,8 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "rot-js": "^2.2.0"
+    "lodash": "^4.17.21",
+    "rot-js": "^2.2.0",
+    "sprintf-js": "^1.1.2"
   }
 }
