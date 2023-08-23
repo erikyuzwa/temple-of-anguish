@@ -155,7 +155,7 @@ module.exports = function(grunt) {
         'clean',
         'jshint',
         'copy',
-        'electron'
+        //'electron'
     ]);
   });
 
