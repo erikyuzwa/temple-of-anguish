@@ -9,6 +9,7 @@ import {ENTITY_MIXIN_ENUMS} from "./enums";
 class Entity extends DynamicGlyph {
     constructor(options) {
         super(options)
+        options = options || {}
 
         // Instantiate any properties from the passed object
         this._x = options['x'] || 0;

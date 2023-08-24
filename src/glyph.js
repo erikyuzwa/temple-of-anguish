@@ -33,6 +33,7 @@ class Glyph {
         this._char = options['character'] || ' ';
         this._foreground = options['foreground'] || 'white';
         this._background = options['background'] || 'black';
+        console.log(options)
     }
 
     // Create standard getters for glyphs

@@ -1,5 +1,6 @@
 import Map from '../map'
 import Tile from '../tile'
+import {WaterTile} from "../tiles";
 
 class BossCavern extends Map {
     constructor() {
@@ -8,8 +9,6 @@ class BossCavern extends Map {
         // Create the giant zombie
         //this.addEntityAtRandomPosition(EntityRepository.create('giant zombie'), 0);
     }
-
-
 
     _fillCircle(tiles, centerX, centerY, radius, tile) {
         // Copied from the DrawFilledCircle algorithm
@@ -67,7 +66,7 @@ class BossCavern extends Map {
             // Random radius
             var radius = Math.floor(Math.random() * maxRadius) + 1;
             // Position the lake!
-            this._fillCircle(tiles, centerX, centerY, radius, Tile.waterTile);
+            this._fillCircle(tiles, centerX, centerY, radius, WaterTile);
         }
 
         // Return the tiles in an array as we only have 1 depth level.

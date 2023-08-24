@@ -1,8 +1,8 @@
 import EntityRepository from '../entities'
 import ItemRepository from '../items'
 import Map from '../map'
-import Tile from '../tile'
 import {ENTITY_MIXIN_ENUMS} from "../enums";
+import {HoleToCavernTile} from "../tiles";
 
 class Cave extends Map {
     constructor(tiles, player) {
@@ -32,8 +32,14 @@ class Cave extends Map {
             }
         }
         // Add weapons and armor to the map in random positions and floors
-        var templates = ['dagger', 'sword', 'staff',
-            'tunic', 'chainmail', 'platemail'];
+        var templates = [
+            'dagger',
+            'sword',
+            'staff',
+            'tunic',
+            'chainmail',
+            'platemail'
+        ];
         for (var i = 0; i < templates.length; i++) {
             this.addItemAtRandomPosition(ItemRepository.create(templates[i]),
                 Math.floor(this._depth * Math.random()));
@@ -41,7 +47,7 @@ class Cave extends Map {
         // Add a hole to the final cavern on the last level.
         var holePosition = this.getRandomFloorPosition(this._depth - 1);
         this._tiles[this._depth - 1][holePosition.x][holePosition.y] =
-            Tile.holeToCavernTile;
+            HoleToCavernTile;
 
 
     }

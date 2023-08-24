@@ -2,13 +2,13 @@ import * as ROT from 'rot-js'
 import Game from './game'
 import Builder from './builder'
 import Cave from './maps/cave'
-import Tile from './tile'
 import Entity from './entity'
 import PlayerTemplate from './player'
 import Geometry from "./geometry";
 import {vsprintf} from 'sprintf-js'
 import {sendMessage} from "./helpers";
 import {ITEM_MIXIN_ENUMS} from "./enums";
+import {NullTile} from "./tiles";
 
 const Screen = {};
 
@@ -147,8 +147,7 @@ Screen.playScreen = {
         // Make sure we still have enough space to fit an entire game screen
         var topLeftX = Math.max(0, this._player.getX() - (Game.getScreenWidth() / 2));
         // Make sure we still have enough space to fit an entire game screen
-        topLeftX = Math.min(topLeftX, this._player.getMap().getWidth() -
-            Game.getScreenWidth());
+        topLeftX = Math.min(topLeftX, this._player.getMap().getWidth() - Game.getScreenWidth());
         // Make sure the y-axis doesn't above the top bound
         var topLeftY = Math.max(0, this._player.getY() - (Game.getScreenHeight() / 2));
         // Make sure we still have enough space to fit an entire game screen
@@ -158,6 +157,7 @@ Screen.playScreen = {
             y: topLeftY
         };
     },
+
     renderTiles: function(display) {
         var screenWidth = Game.getScreenWidth();
         var screenHeight = Game.getScreenHeight();
@@ -167,8 +167,8 @@ Screen.playScreen = {
         // This object will keep track of all visible map cells
         var visibleCells = {};
         // Store this._player.getMap() and player's z to prevent losing it in callbacks
-        var map = this._player.getMap();
-        var currentDepth = this._player.getZ();
+        const map = this._player.getMap();
+        const currentDepth = this._player.getZ();
 
         // Find all visible cells and update the object
         map.getFov(currentDepth).compute(
@@ -180,13 +180,15 @@ Screen.playScreen = {
                 map.setExplored(x, y, currentDepth, true);
             });
         // Render the explored map cells
-        for (var x = topLeftX; x < topLeftX + screenWidth; x++) {
-            for (var y = topLeftY; y < topLeftY + screenHeight; y++) {
+        for (let x = topLeftX; x < topLeftX + screenWidth; x++) {
+            for (let y = topLeftY; y < topLeftY + screenHeight; y++) {
                 if (map.isExplored(x, y, currentDepth)) {
                     // Fetch the glyph for the tile and render it to the screen
                     // at the offset position.
-                    var glyph = map.getTile(x, y, currentDepth);
-                    var foreground = glyph.getForeground();
+
+                    let glyph = map.getTile(x, y, currentDepth);
+                    let foreground = glyph.getForeground();
+
                     // If we are at a cell that is in the field of vision, we need
                     // to check if there are items or entities.
                     if (visibleCells[x + ',' + y]) {
@@ -806,8 +808,8 @@ Screen.lookScreen = new Screen.TargetBasedScreen({
         } else {
             // If the tile is not explored, show the null tile description.
             return String.format('%s - %s',
-                Tile.nullTile.getRepresentation(),
-                Tile.nullTile.getDescription());
+                NullTile.getRepresentation(),
+                NullTile.getDescription());
         }
     }
 });
@@ -847,8 +849,8 @@ Screen.lookScreen = new Screen.TargetBasedScreen({
         } else {
             // If the tile is not explored, show the null tile description.
             return String.format('%s - %s',
-                Tile.nullTile.getRepresentation(),
-                Tile.nullTile.getDescription());
+                NullTile.getRepresentation(),
+                NullTile.getDescription());
         }
     }
 });

@@ -1,6 +1,7 @@
 import * as ROT from 'rot-js'
 import Tile from './tile'
 import {getNeighborPositions} from './helpers'
+import {FloorTile, StairsDownTile, StairsUpTile, WallTile} from "./tiles";
 
 class Builder {
     constructor(width, height, depth) {
@@ -51,7 +52,7 @@ class Builder {
         for (var w = 0; w < this._width; w++) {
             map[w] = new Array(this._height);
         }
-        // Setup the cave generator
+        // Set up the cave generator
         //var generator = new ROT.Map.Cellular(this._width, this._height);
         var generator = new ROT.Map.Rogue(this._width, this._height);
         //generator.randomize(0.5);
@@ -63,9 +64,9 @@ class Builder {
         // Smoothen it one last time and then update our map
         generator.create(function(x,y,v) {
             if (v === 1) {
-                map[x][y] = Tile.floorTile;
+                map[x][y] = FloorTile;
             } else {
-                map[x][y] = Tile.wallTile;
+                map[x][y] = WallTile;
             }
         });
         return map;
@@ -121,7 +122,7 @@ class Builder {
                 if (this._regions[z][x][y] === region) {
                     // Clear the region and set the tile to a wall tile
                     this._regions[z][x][y] = 0;
-                    this._tiles[z][x][y] = Tile.wallTile;
+                    this._tiles[z][x][y] = WallTile;
                 }
             }
         }
@@ -159,8 +160,8 @@ class Builder {
         // put two stairs on the same tile.
         for (var x = 0; x < this._width; x++) {
             for (var y = 0; y < this._height; y++) {
-                if (this._tiles[z][x][y] === Tile.floorTile &&
-                    this._tiles[z + 1][x][y] === Tile.floorTile &&
+                if (this._tiles[z][x][y] === FloorTile &&
+                    this._tiles[z + 1][x][y] === FloorTile &&
                     this._regions[z][x][y] === r1 &&
                     this._regions[z + 1][x][y] === r2) {
                     matches.push({x: x, y: y});
@@ -187,8 +188,8 @@ class Builder {
         }
         // Select the first tile from the overlap and change it to stairs
         var point = overlap[0];
-        this._tiles[z][point.x][point.y] = Tile.stairsDownTile;
-        this._tiles[z+1][point.x][point.y] = Tile.stairsUpTile;
+        this._tiles[z][point.x][point.y] = StairsDownTile;
+        this._tiles[z+1][point.x][point.y] = StairsUpTile;
         return true;
     }
 
@@ -206,8 +207,8 @@ class Builder {
                 for (var y = 0; y < this._height; y++) {
                     key = this._regions[z][x][y] + ',' +
                         this._regions[z+1][x][y];
-                    if (this._tiles[z][x][y] === Tile.floorTile &&
-                        this._tiles[z+1][x][y] === Tile.floorTile &&
+                    if (this._tiles[z][x][y] === FloorTile &&
+                        this._tiles[z+1][x][y] === FloorTile &&
                         !connected[key]) {
                         // Since both tiles are floors and we haven't
                         // already connected the two regions, try now.

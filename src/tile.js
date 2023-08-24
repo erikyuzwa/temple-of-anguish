@@ -38,18 +38,17 @@ Tile.prototype.getDescription = function() {
 };*/
 
 class Tile extends Glyph {
-    constructor(properties) {
-        super(Glyph);
-        properties = properties || {};
+    constructor(options) {
+        super(options);
+        options = options || {}
 
         // Call the Glyph constructor with our properties
         //Glyph.call(this, properties);
         // Set up the properties. We use false by default.
-        this._walkable = properties['walkable'] || false;
-        this._diggable = properties['diggable'] || false;
-        this._blocksLight = (properties['blocksLight'] !== undefined) ?
-            properties['blocksLight'] : true;
-        this._description = properties['description'] || '';
+        this._walkable = options['walkable'] || false;
+        this._diggable = options['diggable'] || false;
+        this._blocksLight = (options['blocksLight'] !== undefined) ? options['blocksLight'] : true;
+        this._description = options['description'] || '';
     }
 
     isWalkable() {
@@ -69,7 +68,7 @@ class Tile extends Glyph {
     }
 }
 
-
+/*
 Tile.nullTile = new Tile({description: '(unknown)'});
 
 Tile.floorTile = new Tile({
@@ -118,7 +117,6 @@ Tile.waterTile = new Tile({
     description: 'Murky blue water'
 });
 
-/*
 // Helper function
 Game.getNeighborPositions = function(x, y) {
     var tiles = [];

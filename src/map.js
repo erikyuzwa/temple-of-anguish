@@ -1,6 +1,7 @@
 import * as ROT from 'rot-js'
 import Tile from './tile'
 import {ENTITY_MIXIN_ENUMS} from "./enums";
+import {FloorTile, NullTile} from "./tiles";
 
 class Map {
     constructor(tiles) {
@@ -9,7 +10,7 @@ class Map {
         this._depth = tiles.length;
         this._width = tiles[0].length;
         this._height = tiles[0][0].length;
-        // Setup the field of visions
+        // Set up the field of visions
         this._fov = [];
         this.setupFov();
         // Create a table which will hold the entities
@@ -53,37 +54,38 @@ class Map {
     getTile (x, y, z) {
         // Make sure we are inside the bounds. If we aren't, return
         // null tile.
-        if (x < 0 || x >= this._width || y < 0 || y >= this._height ||
+        if (x < 0 || x >= this._width ||
+            y < 0 || y >= this._height ||
             z < 0 || z >= this._depth) {
-            return Tile.nullTile;
+            return NullTile;
         } else {
-            return this._tiles[z][x][y] || Tile.nullTile;
+            return this._tiles[z][x][y] || NullTile;
         }
     }
 
     dig (x, y, z) {
         // If the tile is diggable, update it to a floor
         if (this.getTile(x, y, z).isDiggable()) {
-            this._tiles[z][x][y] = Tile.floorTile;
+            this._tiles[z][x][y] = FloorTile;
         }
     }
 
     isEmptyFloor (x, y, z) {
         // Check if the tile is floor and also has no entity
-        return this.getTile(x, y, z) === Tile.floorTile &&
+        return this.getTile(x, y, z) === FloorTile &&
             !this.getEntityAt(x, y, z);
     }
 
     setExplored (x, y, z, state) {
         // Only update if the tile is within bounds
-        if (this.getTile(x, y, z) !== Tile.nullTile) {
+        if (this.getTile(x, y, z) !== NullTile) {
             this._explored[z][x][y] = state;
         }
     }
 
     isExplored (x, y, z) {
         // Only return the value if within bounds
-        if (this.getTile(x, y, z) !== Tile.nullTile) {
+        if (this.getTile(x, y, z) !== NullTile) {
             return this._explored[z][x][y];
         } else {
             return false;

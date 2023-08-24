@@ -4,6 +4,7 @@ import Glyph from './glyph'
 class DynamicGlyph extends Glyph {
     constructor(options) {
         super(options)
+        options = options || {}
 
         // Instantiate any properties from the passed object
         this._name = options['name'] || '';
