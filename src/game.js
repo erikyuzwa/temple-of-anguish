@@ -1,6 +1,5 @@
 import * as ROT from 'rot-js'
 
-
 const Game = {
     _display: null,
     _currentScreen: null,

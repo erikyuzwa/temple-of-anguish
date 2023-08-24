@@ -4,24 +4,6 @@ import Repository from './repository'
 import {ENTITY_MIXIN_ENUMS} from "./enums";
 import EntityMixins from "./entitymixins";
 
-/*
-// Player template
-var PlayerTemplate = {
-    name: 'avatar (you)',
-    character: '@',
-    foreground: 'deepSkyBlue',
-    maxHp: 20,
-    attackValue: 10,
-    sightRadius: 6,
-    inventorySlots: 22,
-    mixins: [Game.EntityMixins.PlayerActor,
-      Game.EntityMixins.Attacker, Game.EntityMixins.Destructible,
-      Game.EntityMixins.InventoryHolder, Game.EntityMixins.FoodConsumer,
-      Game.EntityMixins.Sight, Game.EntityMixins.MessageRecipient,
-      Game.EntityMixins.Equipper,
-      Game.EntityMixins.ExperienceGainer, Game.EntityMixins.PlayerStatGainer]
-};*/
-
 // Create our central entity repository
 const EntityRepository = new Repository('entities', Entity);
 
