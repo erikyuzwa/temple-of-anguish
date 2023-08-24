@@ -27,12 +27,12 @@ Glyph.prototype.getRepresentation = function() {
 };*/
 
 class Glyph {
-    constructor(properties) {
+    constructor(options) {
         // Instantiate properties to default if they weren't passed
-        properties = properties || {};
-        this._char = properties['character'] || ' ';
-        this._foreground = properties['foreground'] || 'white';
-        this._background = properties['background'] || 'black';
+        options = options || {};
+        this._char = options['character'] || ' ';
+        this._foreground = options['foreground'] || 'white';
+        this._background = options['background'] || 'black';
     }
 
     // Create standard getters for glyphs

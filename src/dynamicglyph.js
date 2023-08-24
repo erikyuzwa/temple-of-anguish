@@ -2,12 +2,11 @@
 import Glyph from './glyph'
 
 class DynamicGlyph extends Glyph {
-    constructor(properties) {
-        super(properties);
-        //properties = properties || {};
+    constructor(options) {
+        super(options)
 
         // Instantiate any properties from the passed object
-        this._name = properties['name'] || '';
+        this._name = options['name'] || '';
         // Create an object which will keep track what mixins we have
         // attached to this entity based on the name property
         this._attachedMixins = {};
@@ -16,43 +15,51 @@ class DynamicGlyph extends Glyph {
         // Set up an object for listeners
         this._listeners = {};
         // Setup the object's mixins
-        var mixins = properties['mixins'] || [];
-        for (var i = 0; i < mixins.length; i++) {
+        const mixins = options['mixins'] || [];
+        console.log('entity mixins', mixins)
+        for (let i = 0; i < mixins.length; i++) {
+
+            const mixin = mixins[i]
+            console.log('working on mixin: ', mixin)
             // Copy over all properties from each mixin as long
             // as it's not the name, init, or listeners property. We
             // also make sure not to override a property that
             // already exists on the entity.
-            for (var key in mixins[i]) {
-                if (key != 'init' && key != 'name' && key != 'listeners'
-                    && !this.hasOwnProperty(key)) {
-                    this[key] = mixins[i][key];
+            for (let key in mixin) {
+                //debugger
+                if (key !== 'init' &&
+                    key !== 'name' &&
+                    key !== 'listeners' &&
+                    !this.hasOwnProperty(key)) {
+                    this[key] = mixin[key];
                 }
             }
+
+            //debugger
             // Add the name of this mixin to our attached mixins
-            this._attachedMixins[mixins[i].name] = true;
+            this._attachedMixins[mixin.name] = true;
+
             // If a group name is present, add it
-            if (mixins[i].groupName) {
-                this._attachedMixinGroups[mixins[i].groupName] = true;
+            if (mixin.groupName) {
+                this._attachedMixinGroups[mixin.groupName] = true;
             }
             // Add all of our listeners
-            if (mixins[i].listeners) {
-                for (var key in mixins[i].listeners) {
+            if (mixin.listeners) {
+                for (let key in mixin.listeners) {
                     // If we don't already have a key for this event in our listeners
                     // array, add it.
                     if (!this._listeners[key]) {
                         this._listeners[key] = [];
                     }
                     // Add the listener.
-                    this._listeners[key].push(mixins[i].listeners[key]);
+                    this._listeners[key].push(mixin.listeners[key]);
                 }
             }
             // Finally call the init function if there is one
-            if (mixins[i].init) {
-                mixins[i].init.call(this, properties);
+            if (mixin.init) {
+                mixin.init.call(this, options);
             }
         }
-
-
     }
 
     hasMixin(obj) {
@@ -110,7 +117,7 @@ class DynamicGlyph extends Glyph {
     details() {
         var details = [];
         var detailGroups = this.raiseEvent('details');
-        // Iterate through each return value, grabbing the detaisl from the arrays.
+        // Iterate through each return value, grabbing the details from the arrays.
         if (detailGroups) {
             for (var i = 0, l = detailGroups.length; i < l; i++) {
                 if (detailGroups[i]) {

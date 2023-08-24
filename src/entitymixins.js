@@ -5,6 +5,7 @@ import Game from './game'
 import Screen from './screens'
 import {sendMessage, sendMessageNearby} from './helpers'
 import {ENTITY_MIXIN_ENUMS} from "./enums";
+import ItemRepository from "./items";
 
 // Create our Mixins namespace
 const EntityMixins = {};
@@ -82,6 +83,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.TASK_ACTOR] = {
         // Load tasks
         this._tasks = template['tasks'] || ['wander'];
     },
+
     act: function() {
         // Iterate through all our tasks
         for (var i = 0; i < this._tasks.length; i++) {
@@ -92,15 +94,17 @@ EntityMixins[ENTITY_MIXIN_ENUMS.TASK_ACTOR] = {
             }
         }
     },
+
     canDoTask: function(task) {
         if (task === 'hunt') {
-            return this.hasMixin('Sight') && this.canSee(this.getMap().getPlayer());
+            return this.hasMixin(ENTITY_MIXIN_ENUMS.SIGHT) && this.canSee(this.getMap().getPlayer());
         } else if (task === 'wander') {
             return true;
         } else {
             throw new Error('Tried to perform undefined task ' + task);
         }
     },
+
     hunt: function() {
         var player = this.getMap().getPlayer();
 
@@ -108,7 +112,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.TASK_ACTOR] = {
         var offsets = Math.abs(player.getX() - this.getX()) +
             Math.abs(player.getY() - this.getY());
         if (offsets === 1) {
-            if (this.hasMixin('Attacker')) {
+            if (this.hasMixin(ENTITY_MIXIN_ENUMS.ATTACKER)) {
                 this.attack(player);
                 return;
             }
@@ -135,6 +139,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.TASK_ACTOR] = {
             count++;
         });
     },
+
     wander: function() {
         // Flip coin to determine if moving by 1 in the positive or negative direction
         var moveOffset = (Math.round(Math.random()) === 1) ? 1 : -1;
@@ -303,7 +308,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.ATTACKER] = {
     attack: function(target) {
         // If the target is destructible, calculate the damage
         // based on attack and defense value
-        if (target.hasMixin('Destructible')) {
+        if (target.hasMixin(ENTITY_MIXIN_ENUMS.DESTRUCTIBLE)) {
             var attack = this.getAttackValue();
             var defense = target.getDefenseValue();
             var max = Math.max(0, attack - defense);
@@ -414,16 +419,18 @@ EntityMixins[ENTITY_MIXIN_ENUMS.MESSAGE_RECIPIENT] = {
     }
 };
 
-// This signifies our entity posseses a field of vision of a given radius.
+// This signifies our entity possesses a field of vision of a given radius.
 EntityMixins[ENTITY_MIXIN_ENUMS.SIGHT] = {
     name: ENTITY_MIXIN_ENUMS.SIGHT,
     groupName: 'Sight',
     init: function(template) {
         this._sightRadius = template['sightRadius'] || 5;
     },
+
     getSightRadius: function() {
         return this._sightRadius;
     },
+
     increaseSightRadius: function(value) {
         // If no value was passed, default to 1.
         value = value || 1;
@@ -431,6 +438,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.SIGHT] = {
         this._sightRadius += 1;
         sendMessage(this, "You are more aware of your surroundings!");
     },
+
     canSee: function(entity) {
         // If not on the same map or on different floors, then exit early
         if (!entity || this._map !== entity.getMap() || this._z !== entity.getZ()) {
@@ -502,12 +510,15 @@ EntityMixins[ENTITY_MIXIN_ENUMS.INVENTORY_HOLDER] = {
         // Set up an empty inventory.
         this._items = new Array(inventorySlots);
     },
+
     getItems: function() {
         return this._items;
     },
+
     getItem: function(i) {
         return this._items[i];
     },
+
     addItem: function(item) {
         // Try to find a slot, returning true only if we could add the item.
         for (var i = 0; i < this._items.length; i++) {
@@ -518,6 +529,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.INVENTORY_HOLDER] = {
         }
         return false;
     },
+
     removeItem: function(i) {
         // If we can equip items, then make sure we unequip the item we are removing.
         if (this._items[i] && this.hasMixin(EntityMixins.Equipper)) {
@@ -526,6 +538,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.INVENTORY_HOLDER] = {
         // Simply clear the inventory slot.
         this._items[i] = null;
     },
+
     canAddItem: function() {
         // Check if we have an empty slot.
         for (var i = 0; i < this._items.length; i++) {
@@ -535,6 +548,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.INVENTORY_HOLDER] = {
         }
         return false;
     },
+
     pickupItems: function(indices) {
         // Allows the user to pick up items from the map, where indices is
         // the indices for the array returned by map.getItemsAt
@@ -558,6 +572,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.INVENTORY_HOLDER] = {
         // Return true only if we added all items
         return added === indices.length;
     },
+
     dropItem: function(i) {
         // Drops an item to the current map tile
         if (this._items[i]) {
@@ -578,10 +593,12 @@ EntityMixins[ENTITY_MIXIN_ENUMS.FOOD_CONSUMER] = {
         // Number of points to decrease fullness by every turn.
         this._fullnessDepletionRate = template['fullnessDepletionRate'] || 1;
     },
+
     addTurnHunger: function() {
         // Remove the standard depletion points
         this.modifyFullnessBy(-this._fullnessDepletionRate);
     },
+
     modifyFullnessBy: function(points) {
         this._fullness = this._fullness + points;
         if (this._fullness <= 0) {
@@ -590,6 +607,7 @@ EntityMixins[ENTITY_MIXIN_ENUMS.FOOD_CONSUMER] = {
             this.kill("You choke and die!");
         }
     },
+
     getHungerState: function() {
         // Fullness points per percent of max fullness
         var perPercent = this._maxFullness / 100;
@@ -677,14 +695,14 @@ EntityMixins[ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER] = {
         this._statPoints = 0;
         // Determine what stats can be levelled up.
         this._statOptions = [];
-        if (this.hasMixin('Attacker')) {
+        if (this.hasMixin(ENTITY_MIXIN_ENUMS.ATTACKER)) {
             this._statOptions.push(['Increase attack value', this.increaseAttackValue]);
         }
-        if (this.hasMixin('Destructible')) {
+        if (this.hasMixin(ENTITY_MIXIN_ENUMS.DESTRUCTIBLE)) {
             this._statOptions.push(['Increase defense value', this.increaseDefenseValue]);
             this._statOptions.push(['Increase max health', this.increaseMaxHp]);
         }
-        if (this.hasMixin('Sight')) {
+        if (this.hasMixin(ENTITY_MIXIN_ENUMS.SIGHT)) {
             this._statOptions.push(['Increase sight range', this.increaseSightRadius]);
         }
     },
@@ -737,11 +755,11 @@ EntityMixins[ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER] = {
     listeners: {
         onKill: function(victim) {
             var exp = victim.getMaxHp() + victim.getDefenseValue();
-            if (victim.hasMixin('Attacker')) {
+            if (victim.hasMixin(ENTITY_MIXIN_ENUMS.ATTACKER)) {
                 exp += victim.getAttackValue();
             }
             // Account for level differences
-            if (victim.hasMixin('ExperienceGainer')) {
+            if (victim.hasMixin(ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER)) {
                 exp -= (this.getLevel() - victim.getLevel()) * 3;
             }
             // Only give experience if more than 0.

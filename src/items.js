@@ -2,6 +2,7 @@
 import Item from './item'
 import Repository from './repository'
 import {ITEM_MIXIN_ENUMS} from "./enums";
+import ItemMixins from "./itemmixins";
 
 const ItemRepository = new Repository('items', Item);
 
@@ -10,7 +11,9 @@ ItemRepository.define('apple', {
     character: '%',
     foreground: 'red',
     foodValue: 50,
-    mixins: [ITEM_MIXIN_ENUMS.EDIBLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EDIBLE]
+    ]
 });
 
 ItemRepository.define('melon', {
@@ -19,7 +22,9 @@ ItemRepository.define('melon', {
     foreground: 'lightGreen',
     foodValue: 35,
     consumptions: 4,
-    mixins: [ITEM_MIXIN_ENUMS.EDIBLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EDIBLE]
+    ]
 });
 
 ItemRepository.define('pumpkin', {
@@ -31,7 +36,10 @@ ItemRepository.define('pumpkin', {
     defenseValue: 2,
     wearable: true,
     wieldable: true,
-    mixins: [ITEM_MIXIN_ENUMS.EDIBLE, ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EDIBLE],
+        ItemMixins[ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    ]
 });
 
 ItemRepository.define('corpse', {
@@ -39,7 +47,9 @@ ItemRepository.define('corpse', {
     character: '%',
     foodValue: 75,
     consumptions: 1,
-    mixins: [ITEM_MIXIN_ENUMS.EDIBLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EDIBLE]
+    ]
 }, {
     disableRandomCreation: true
 });
@@ -57,7 +67,9 @@ ItemRepository.define('dagger', {
     foreground: 'gray',
     attackValue: 5,
     wieldable: true,
-    mixins: [ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    ]
 }, {
     disableRandomCreation: true
 });
@@ -68,7 +80,9 @@ ItemRepository.define('sword', {
     foreground: 'white',
     attackValue: 10,
     wieldable: true,
-    mixins: [ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    ]
 }, {
     disableRandomCreation: true
 });
@@ -80,7 +94,9 @@ ItemRepository.define('staff', {
     attackValue: 5,
     defenseValue: 3,
     wieldable: true,
-    mixins: [ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    ]
 }, {
     disableRandomCreation: true
 });
@@ -92,7 +108,9 @@ ItemRepository.define('tunic', {
     foreground: 'green',
     defenseValue: 2,
     wearable: true,
-    mixins: [ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    ]
 }, {
     disableRandomCreation: true
 });
@@ -103,7 +121,9 @@ ItemRepository.define('chainmail', {
     foreground: 'white',
     defenseValue: 4,
     wearable: true,
-    mixins: [ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    ]
 }, {
     disableRandomCreation: true
 });
@@ -114,7 +134,9 @@ ItemRepository.define('platemail', {
     foreground: 'aliceblue',
     defenseValue: 6,
     wearable: true,
-    mixins: [ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    mixins: [
+        ItemMixins[ITEM_MIXIN_ENUMS.EQUIPPABLE]
+    ]
 }, {
     disableRandomCreation: true
 });

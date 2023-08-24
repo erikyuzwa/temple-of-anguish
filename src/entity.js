@@ -7,20 +7,19 @@ import {sendMessage} from './helpers'
 import {ENTITY_MIXIN_ENUMS} from "./enums";
 
 class Entity extends DynamicGlyph {
-    constructor(properties) {
-        super(properties)
+    constructor(options) {
+        super(options)
 
         // Instantiate any properties from the passed object
-        this._x = properties['x'] || 0;
-        this._y = properties['y'] || 0;
-        this._z = properties['z'] || 0;
+        this._x = options['x'] || 0;
+        this._y = options['y'] || 0;
+        this._z = options['z'] || 0;
         this._map = null;
         this._alive = true;
         // Acting speed
-        this._speed = properties['speed'] || 1000;
+        this._speed = options['speed'] || 1000;
 
     }
-
     setX(x) {
         this._x = x;
     }
@@ -103,7 +102,7 @@ class Entity extends DynamicGlyph {
         } else if (target) {
             // An entity can only attack if the entity has the Attacker mixin and
             // either the entity or the target is the player.
-            if (this.hasMixin('Attacker') &&
+            if (this.hasMixin(ENTITY_MIXIN_ENUMS.ATTACKER) &&
                 (this.hasMixin(ENTITY_MIXIN_ENUMS.PLAYER_ACTOR) ||
                     target.hasMixin(ENTITY_MIXIN_ENUMS.PLAYER_ACTOR))) {
                 this.attack(target);

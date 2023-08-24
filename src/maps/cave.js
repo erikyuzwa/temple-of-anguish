@@ -2,16 +2,14 @@ import EntityRepository from '../entities'
 import ItemRepository from '../items'
 import Map from '../map'
 import Tile from '../tile'
+import {ENTITY_MIXIN_ENUMS} from "../enums";
 
 class Cave extends Map {
-    constructor() {
-        //super(Map);
-        super()
-    }
+    constructor(tiles, player) {
 
-    build() {
-        // Add the player
-        this.addEntityAtRandomPosition(this._player, 0);
+        super(tiles)
+
+        this.addEntityAtRandomPosition(player, 0);
         // Add random entities and items to each floor.
         for (var z = 0; z < this._depth; z++) {
             // 15 entities per floor
@@ -20,7 +18,7 @@ class Cave extends Map {
                 // Add a random entity
                 this.addEntityAtRandomPosition(entity, z);
                 // Level up the entity based on the floor
-                if (entity.hasMixin('ExperienceGainer')) {
+                if (entity.hasMixin(ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER)) {
                     for (var level = 0; level < z; level++) {
                         entity.giveExperience(entity.getNextLevelExperience() -
                             entity.getExperience());
@@ -42,9 +40,11 @@ class Cave extends Map {
         }
         // Add a hole to the final cavern on the last level.
         var holePosition = this.getRandomFloorPosition(this._depth - 1);
-        this._tiles[this._depth - 1][holePosition.x][holePosition.y] = Tile.holeToCavernTile;
-    }
+        this._tiles[this._depth - 1][holePosition.x][holePosition.y] =
+            Tile.holeToCavernTile;
 
+
+    }
 
 }
 

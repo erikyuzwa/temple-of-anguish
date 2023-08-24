@@ -31,19 +31,19 @@ class Builder {
 
     getTiles  () {
         return this._tiles;
-    };
+    }
 
     getDepth  () {
         return this._depth;
-    };
+    }
 
     getWidth  () {
         return this._width;
-    };
+    }
 
     getHeight  () {
         return this._height;
-    };
+    }
 
     _generateLevel () {
         // Create the empty map
@@ -69,7 +69,7 @@ class Builder {
             }
         });
         return map;
-    };
+    }
 
     _canFillRegion (x, y, z) {
         // Make sure the tile is within bounds
@@ -83,7 +83,7 @@ class Builder {
         }
         // Make sure the tile is walkable
         return this._tiles[z][x][y].isWalkable();
-    };
+    }
 
     _fillRegion (region, x, y, z) {
         var tilesFilled = 1;
@@ -111,7 +111,7 @@ class Builder {
 
         }
         return tilesFilled;
-    };
+    }
 
 // This removes all tiles at a given depth level with a region number.
 // It fills the tiles with a wall tile.
@@ -125,7 +125,7 @@ class Builder {
                 }
             }
         }
-    };
+    }
 
 // This sets up the regions for a given depth level.
     _setupRegions (z) {
@@ -147,7 +147,7 @@ class Builder {
                 }
             }
         }
-    };
+    }
 
 // This fetches a list of points that overlap between one
 // region at a given depth level and a region at a level beneath it.
@@ -175,7 +175,7 @@ class Builder {
             .map(({ value }) => value)
 
         return shuffled
-    };
+    }
 
 // This tries to connect two regions by calculating
 // where they overlap and adding stairs
@@ -190,7 +190,7 @@ class Builder {
         this._tiles[z][point.x][point.y] = Tile.stairsDownTile;
         this._tiles[z+1][point.x][point.y] = Tile.stairsUpTile;
         return true;
-    };
+    }
 
 // This tries to connect all regions for each depth level,
 // starting from the top most depth level.

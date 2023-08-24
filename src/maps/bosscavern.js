@@ -1,5 +1,5 @@
 import Map from '../map'
-import EntityRepository from '../entities'
+import Tile from '../tile'
 
 class BossCavern extends Map {
     constructor() {
@@ -52,7 +52,7 @@ class BossCavern extends Map {
         }
         // Now we determine the radius of the cave to carve out.
         var radius = (Math.min(width, height) - 2) / 2;
-        this._fillCircle(tiles, width / 2, height / 2, radius, Game.Tile.floorTile);
+        this._fillCircle(tiles, width / 2, height / 2, radius, Tile.floorTile);
 
         // Now we randomly position lakes (3 - 6 lakes)
         var lakes = Math.round(Math.random() * 3) + 3;
@@ -67,7 +67,7 @@ class BossCavern extends Map {
             // Random radius
             var radius = Math.floor(Math.random() * maxRadius) + 1;
             // Position the lake!
-            this._fillCircle(tiles, centerX, centerY, radius, Game.Tile.waterTile);
+            this._fillCircle(tiles, centerX, centerY, radius, Tile.waterTile);
         }
 
         // Return the tiles in an array as we only have 1 depth level.

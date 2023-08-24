@@ -1,7 +1,8 @@
 
 import Entity from './entity'
-import EntityMixins from './entitymixins'
 import Repository from './repository'
+import {ENTITY_MIXIN_ENUMS} from "./enums";
+import EntityMixins from "./entitymixins";
 
 /*
 // Player template
@@ -30,8 +31,12 @@ EntityRepository.define('fungus', {
     foreground: 'green',
     maxHp: 10,
     speed: 250,
-    mixins: [EntityMixins.FungusActor, EntityMixins.Destructible,
-             EntityMixins.ExperienceGainer, EntityMixins.RandomStatGainer]
+    mixins: [
+        EntityMixins[ENTITY_MIXIN_ENUMS.FUNGUS_ACTOR],
+        EntityMixins[ENTITY_MIXIN_ENUMS.DESTRUCTIBLE],
+        EntityMixins[ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.RANDOM_STAT_GAINER]
+    ]
 });
 
 EntityRepository.define('bat', {
@@ -41,10 +46,14 @@ EntityRepository.define('bat', {
     maxHp: 5,
     attackValue: 4,
     speed: 2000,
-    mixins: [EntityMixins.TaskActor,
-             EntityMixins.Attacker, EntityMixins.Destructible,
-             EntityMixins.CorpseDropper,
-             EntityMixins.ExperienceGainer, EntityMixins.RandomStatGainer]
+    mixins: [
+        EntityMixins[ENTITY_MIXIN_ENUMS.TASK_ACTOR],
+        EntityMixins[ENTITY_MIXIN_ENUMS.ATTACKER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.DESTRUCTIBLE],
+        EntityMixins[ENTITY_MIXIN_ENUMS.CORPSE_DROPPER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.RANDOM_STAT_GAINER]
+    ]
 });
 
 EntityRepository.define('rat', {
@@ -53,10 +62,14 @@ EntityRepository.define('rat', {
     foreground: 'yellow',
     maxHp: 3,
     attackValue: 2,
-    mixins: [EntityMixins.TaskActor,
-             EntityMixins.Attacker, EntityMixins.Destructible,
-             EntityMixins.CorpseDropper,
-             EntityMixins.ExperienceGainer, EntityMixins.RandomStatGainer]
+    mixins: [
+        EntityMixins[ENTITY_MIXIN_ENUMS.TASK_ACTOR],
+        EntityMixins[ENTITY_MIXIN_ENUMS.ATTACKER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.DESTRUCTIBLE],
+        EntityMixins[ENTITY_MIXIN_ENUMS.CORPSE_DROPPER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.RANDOM_STAT_GAINER]
+    ]
 });
 
 EntityRepository.define('kobold', {
@@ -67,12 +80,18 @@ EntityRepository.define('kobold', {
     attackValue: 4,
     sightRadius: 5,
     tasks: ['hunt', 'wander'],
-    mixins: [EntityMixins.TaskActor, EntityMixins.Sight,
-             EntityMixins.Attacker, EntityMixins.Destructible,
-             EntityMixins.CorpseDropper,
-             EntityMixins.ExperienceGainer, EntityMixins.RandomStatGainer]
+    mixins: [
+        EntityMixins[ENTITY_MIXIN_ENUMS.TASK_ACTOR],
+        EntityMixins[ENTITY_MIXIN_ENUMS.SIGHT],
+        EntityMixins[ENTITY_MIXIN_ENUMS.ATTACKER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.DESTRUCTIBLE],
+        EntityMixins[ENTITY_MIXIN_ENUMS.CORPSE_DROPPER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.RANDOM_STAT_GAINER]
+    ]
 });
 
+/*
 EntityRepository.define('giant zombie', {
     name: 'giant zombie',
     character: 'Z',
@@ -82,13 +101,13 @@ EntityRepository.define('giant zombie', {
     defenseValue: 5,
     level: 5,
     sightRadius: 6,
-    mixins: [EntityMixins.GiantZombieActor, EntityMixins.Sight,
-             EntityMixins.Attacker, EntityMixins.Destructible,
-             EntityMixins.CorpseDropper,
-             EntityMixins.ExperienceGainer]
+    mixins: [ENTITY_MIXIN_ENUMS.G, ENTITY_MIXIN_ENUMS.SIGHT,
+        ENTITY_MIXIN_ENUMS.ATTACKER, ENTITY_MIXIN_ENUMS.DESTRUCTIBLE,
+        ENTITY_MIXIN_ENUMS.CORPSE_DROPPER,
+        ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER]
 }, {
     disableRandomCreation: true
-});
+});*/
 
 EntityRepository.define('slime', {
     name: 'slime',
@@ -98,10 +117,15 @@ EntityRepository.define('slime', {
     attackValue: 5,
     sightRadius: 3,
     tasks: ['hunt', 'wander'],
-    mixins: [EntityMixins.TaskActor, EntityMixins.Sight,
-             EntityMixins.Attacker, EntityMixins.Destructible,
-             EntityMixins.CorpseDropper,
-             EntityMixins.ExperienceGainer, EntityMixins.RandomStatGainer]
+    mixins: [
+        EntityMixins[ENTITY_MIXIN_ENUMS.TASK_ACTOR],
+        EntityMixins[ENTITY_MIXIN_ENUMS.SIGHT],
+        EntityMixins[ENTITY_MIXIN_ENUMS.ATTACKER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.DESTRUCTIBLE],
+        EntityMixins[ENTITY_MIXIN_ENUMS.CORPSE_DROPPER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.EXPERIENCE_GAINER],
+        EntityMixins[ENTITY_MIXIN_ENUMS.RANDOM_STAT_GAINER]
+    ]
 });
 
 export default EntityRepository

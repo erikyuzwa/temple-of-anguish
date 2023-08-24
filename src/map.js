@@ -3,8 +3,7 @@ import Tile from './tile'
 import {ENTITY_MIXIN_ENUMS} from "./enums";
 
 class Map {
-    constructor() {
-        /*
+    constructor(tiles) {
         this._tiles = tiles;
         // Cache dimensions
         this._depth = tiles.length;
@@ -20,32 +19,7 @@ class Map {
         // Create the engine and scheduler
         this._scheduler = new ROT.Scheduler.Speed();
         this._engine = new ROT.Engine(this._scheduler);
-        // Setup the explored array
-        this._explored = new Array(this._depth);
-        this._setupExploredArray();*/
-    }
-
-    setPlayer(player) {
-        this._player = player
-    }
-
-    buildFromTiles(tiles) {
-        this._tiles = tiles;
-        // Cache dimensions
-        this._depth = tiles.length;
-        this._width = tiles[0].length;
-        this._height = tiles[0][0].length;
-        // Setup the field of visions
-        this._fov = [];
-        this.setupFov();
-        // Create a table which will hold the entities
-        this._entities = {};
-        // Create a table which will hold the items
-        this._items = {};
-        // Create the engine and scheduler
-        this._scheduler = new ROT.Scheduler.Speed();
-        this._engine = new ROT.Engine(this._scheduler);
-        // Setup the explored array
+        // Set up the explored array
         this._explored = new Array(this._depth);
         this._setupExploredArray();
     }
@@ -182,7 +156,7 @@ class Map {
     }
 
     addEntityAtRandomPosition (entity, z) {
-        var position = this.getRandomFloorPosition(z);
+        const position = this.getRandomFloorPosition(z);
         entity.setX(position.x);
         entity.setY(position.y);
         entity.setZ(position.z);
@@ -196,7 +170,7 @@ class Map {
         this.updateEntityPosition(entity);
         // Check if this entity is an actor, and if so add
         // them to the scheduler
-        if (entity.hasMixin('Actor')) {
+        if (entity.hasMixin(ENTITY_MIXIN_ENUMS.ACTOR)) {
             this._scheduler.add(entity, true);
         }
         // If the entity is the player, set the player.
@@ -212,7 +186,7 @@ class Map {
             delete this._entities[key];
         }
         // If the entity is an actor, remove them from the scheduler
-        if (entity.hasMixin('Actor')) {
+        if (entity.hasMixin(ENTITY_MIXIN_ENUMS.ACTOR)) {
             this._scheduler.remove(entity);
         }
         // If the entity is the player, update the player field.

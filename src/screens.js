@@ -7,6 +7,8 @@ import Entity from './entity'
 import PlayerTemplate from './player'
 import Geometry from "./geometry";
 import {vsprintf} from 'sprintf-js'
+import {sendMessage} from "./helpers";
+import {ITEM_MIXIN_ENUMS} from "./enums";
 
 const Screen = {};
 
@@ -53,12 +55,8 @@ Screen.playScreen = {
       var depth = 6;
       // Create our map from the tiles and player
       this._player = new Entity(PlayerTemplate);
-      var tiles = new Builder(width, height, depth).getTiles();
-      //var map = new Cave(tiles, this._player);
-      const map = new Cave()
-      map.setPlayer(this._player)
-      map.buildFromTiles(tiles)
-      map.build()
+      const tiles = new Builder(width, height, depth).getTiles();
+      const map = new Cave(tiles, this._player);
 
       // Start the map's engine
       map.getEngine().start();
@@ -171,6 +169,7 @@ Screen.playScreen = {
         // Store this._player.getMap() and player's z to prevent losing it in callbacks
         var map = this._player.getMap();
         var currentDepth = this._player.getZ();
+
         // Find all visible cells and update the object
         map.getFov(currentDepth).compute(
             this._player.getX(), this._player.getY(),
@@ -482,23 +481,23 @@ Screen.ItemListScreen.prototype.handleInput = function(inputType, inputData) {
     if (inputType === 'keydown') {
         // If the user hit escape, hit enter and can't select an item, or hit
         // enter without any items selected, simply cancel out
-        if (inputData.keyCode === ROT.VK_ESCAPE ||
-            (inputData.keyCode === ROT.VK_RETURN &&
+        if (inputData.keyCode === ROT.KEYS.VK_ESCAPE ||
+            (inputData.keyCode === ROT.KEYS.VK_RETURN &&
                 (!this._canSelectItem || Object.keys(this._selectedIndices).length === 0))) {
             Screen.playScreen.setSubScreen(undefined);
         // Handle pressing return when items are selected
-        } else if (inputData.keyCode === ROT.VK_RETURN) {
+        } else if (inputData.keyCode === ROT.KEYS.VK_RETURN) {
             this.executeOkFunction();
         // Handle pressing zero when 'no item' selection is enabled
-        } else if (this._canSelectItem && this._hasNoItemOption && inputData.keyCode === ROT.VK_0) {
+        } else if (this._canSelectItem && this._hasNoItemOption && inputData.keyCode === ROT.KEYS.VK_0) {
             this._selectedIndices = {};
             this.executeOkFunction();
         // Handle pressing a letter if we can select
-        } else if (this._canSelectItem && inputData.keyCode >= ROT.VK_A &&
-            inputData.keyCode <= ROT.VK_Z) {
+        } else if (this._canSelectItem && inputData.keyCode >= ROT.KEYS.VK_A &&
+            inputData.keyCode <= ROT.KEYS.VK_Z) {
             // Check if it maps to a valid item by subtracting 'a' from the character
             // to know what letter of the alphabet we used.
-            var index = inputData.keyCode - ROT.VK_A;
+            var index = inputData.keyCode - ROT.KEYS.VK_A;
             if (this._items[index]) {
                 // If multiple selection is allowed, toggle the selection status, else
                 // select the item and exit the screen
@@ -532,7 +531,7 @@ Screen.pickupScreen = new Screen.ItemListScreen({
         // Try to pick up all items, messaging the player if they couldn't all be
         // picked up.
         if (!this._player.pickupItems(Object.keys(selectedItems))) {
-            Game.sendMessage(this._player, 'Your inventory is full!');
+            sendMessage(this._player, 'Your inventory is full!');
         }
         return true;
     }
@@ -554,13 +553,13 @@ Screen.eatScreen = new Screen.ItemListScreen({
     canSelect: true,
     canSelectMultipleItems: false,
     isAcceptable: function(item) {
-        return item && item.hasMixin('Edible');
+        return item && item.hasMixin(ITEM_MIXIN_ENUMS.EDIBLE);
     },
     ok: function(selectedItems) {
         // Eat the item, removing it if there are no consumptions remaining.
         var key = Object.keys(selectedItems)[0];
         var item = selectedItems[key];
-        Game.sendMessage(this._player, "You eat %s.", [item.describeThe()]);
+        sendMessage(this._player, "You eat %s.", [item.describeThe()]);
         item.eat(this._player);
         if (!item.hasRemainingConsumptions()) {
             this._player.removeItem(key);
@@ -575,20 +574,20 @@ Screen.wieldScreen = new Screen.ItemListScreen({
     canSelectMultipleItems: false,
     hasNoItemOption: true,
     isAcceptable: function(item) {
-        return item && item.hasMixin('Equippable') && item.isWieldable();
+        return item && item.hasMixin(ITEM_MIXIN_ENUMS.EQUIPPABLE) && item.isWieldable();
     },
     ok: function(selectedItems) {
         // Check if we selected 'no item'
         var keys = Object.keys(selectedItems);
         if (keys.length === 0) {
             this._player.unwield();
-            Game.sendMessage(this._player, 'You are empty handed.');
+            sendMessage(this._player, 'You are empty handed.');
         } else {
             // Make sure to unequip the item first in case it is the armor.
             var item = selectedItems[keys[0]];
             this._player.unequip(item);
             this._player.wield(item);
-            Game.sendMessage(this._player, 'You are wielding %s.', [item.describeA()]);
+            sendMessage(this._player, 'You are wielding %s.', [item.describeA()]);
         }
         return true;
     }
@@ -600,20 +599,20 @@ Screen.wearScreen = new Screen.ItemListScreen({
     canSelectMultipleItems: false,
     hasNoItemOption: true,
     isAcceptable: function(item) {
-        return item && item.hasMixin('Equippable') && item.isWearable();
+        return item && item.hasMixin(ITEM_MIXIN_ENUMS.EQUIPPABLE) && item.isWearable();
     },
     ok: function(selectedItems) {
         // Check if we selected 'no item'
         var keys = Object.keys(selectedItems);
         if (keys.length === 0) {
             this._player.unwield();
-            Game.sendMessage(this._player, 'You are not wearing anything.');
+            sendMessage(this._player, 'You are not wearing anything.');
         } else {
             // Make sure to unequip the item first in case it is the weapon.
             var item = selectedItems[keys[0]];
             this._player.unequip(item);
             this._player.wear(item);
-            Game.sendMessage(this._player, 'You are wearing %s.', [item.describeA()]);
+            sendMessage(this._player, 'You are wearing %s.', [item.describeA()]);
         }
         return true;
     }
@@ -630,7 +629,7 @@ Screen.examineScreen = new Screen.ItemListScreen({
         var keys = Object.keys(selectedItems);
         if (keys.length > 0) {
             var item = selectedItems[keys[0]];
-            Game.sendMessage(this._player, "It's %s (%s).",
+            sendMessage(this._player, "It's %s (%s).",
                 [
                     item.describeA(false),
                     item.details()
@@ -662,10 +661,10 @@ Screen.gainStatScreen = {
     handleInput: function(inputType, inputData) {
         if (inputType === 'keydown') {
             // If a letter was pressed, check if it matches to a valid option.
-            if (inputData.keyCode >= ROT.VK_A && inputData.keyCode <= ROT.VK_Z) {
+            if (inputData.keyCode >= ROT.KEYS.VK_A && inputData.keyCode <= ROT.KEYS.VK_Z) {
                 // Check if it maps to a valid item by subtracting 'a' from the character
                 // to know what letter of the alphabet we used.
-                var index = inputData.keyCode - ROT.VK_A;
+                var index = inputData.keyCode - ROT.KEYS.VK_A;
                 if (this._options[index]) {
                     // Call the stat increasing function
                     this._options[index][1].call(this._entity);
@@ -739,17 +738,17 @@ Screen.TargetBasedScreen.prototype.render = function(display) {
 Screen.TargetBasedScreen.prototype.handleInput = function(inputType, inputData) {
     // Move the cursor
     if (inputType === 'keydown') {
-        if (inputData.keyCode === ROT.VK_LEFT) {
+        if (inputData.keyCode === ROT.KEYS.VK_LEFT) {
             this.moveCursor(-1, 0);
-        } else if (inputData.keyCode === ROT.VK_RIGHT) {
+        } else if (inputData.keyCode === ROT.KEYS.VK_RIGHT) {
             this.moveCursor(1, 0);
-        } else if (inputData.keyCode === ROT.VK_UP) {
+        } else if (inputData.keyCode === ROT.KEYS.VK_UP) {
             this.moveCursor(0, -1);
-        } else if (inputData.keyCode === ROT.VK_DOWN) {
+        } else if (inputData.keyCode === ROT.KEYS.VK_DOWN) {
             this.moveCursor(0, 1);
-        } else if (inputData.keyCode === ROT.VK_ESCAPE) {
+        } else if (inputData.keyCode === ROT.KEYS.VK_ESCAPE) {
             Screen.playScreen.setSubScreen(undefined);
-        } else if (inputData.keyCode === ROT.VK_RETURN) {
+        } else if (inputData.keyCode === ROT.KEYS.VK_RETURN) {
             this.executeOkFunction();
         }
     }
@@ -878,7 +877,7 @@ Screen.helpScreen = {
         display.drawText(Game.getScreenWidth() / 2 - text.length / 2, y++, text);
     },
     handleInput: function(inputType, inputData) {
-        Screen.playScreen.setSubScreen(null);
+        Screen.playScreen.setSubScreen(null)
     }
 };
 

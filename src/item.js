@@ -2,8 +2,8 @@
 import DynamicGlyph from './dynamicglyph'
 
 class Item extends DynamicGlyph {
-    constructor(properties) {
-        super(properties)
+    constructor(options) {
+        super(options)
     }
 }
 

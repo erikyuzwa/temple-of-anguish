@@ -1,6 +1,6 @@
 
 import Item from './item'
-import {ITEM_MIXIN_ENUMS} from "./enums";
+import {ENTITY_MIXIN_ENUMS, ITEM_MIXIN_ENUMS} from "./enums";
 
 const ItemMixins = {};
 
@@ -15,7 +15,7 @@ ItemMixins[ITEM_MIXIN_ENUMS.EDIBLE] = {
         this._remainingConsumptions = this._maxConsumptions;
     },
     eat: function(entity) {
-        if (entity.hasMixin('FoodConsumer')) {
+        if (entity.hasMixin(ENTITY_MIXIN_ENUMS.FOOD_CONSUMER)) {
             if (this.hasRemainingConsumptions()) {
                 entity.modifyFullnessBy(this._foodValue);
                 this._remainingConsumptions--;

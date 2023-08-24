@@ -5,6 +5,7 @@ export const ITEM_MIXIN_ENUMS = {
 }
 
 export const ENTITY_MIXIN_ENUMS = {
+    ACTOR: 'Actor',
     ATTACKER: 'Attacker',
     DESTRUCTIBLE: 'Destructible',
     MESSAGE_RECIPIENT: 'MessageRecipient',
