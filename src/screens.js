@@ -9,6 +9,7 @@ import {vsprintf} from 'sprintf-js'
 import {sendMessage} from "./helpers";
 import {ITEM_MIXIN_ENUMS} from "./enums";
 import {NullTile} from "./tiles";
+import {invoke} from '@tauri-apps/api/tauri'
 
 const Screen = {};
 
@@ -31,13 +32,18 @@ Screen.startScreen = {
       display.drawText(hw - 10, hh - 8, '%c{yellow}Temple of Anguish');
       display.drawText(hw - 3, hh - 7, '%c{orangeRed}by');
       display.drawText(hw - 6, hh - 6, '%c{deepSkyBlue}Wazoo Games');
-      display.drawText(hw - 12, hh + 6, '%c{yellow}Press [Enter] to play!');
+      display.drawText(hw - 8, hh + 2, '%c{yellow}[N]ew Game');
+      if (window.__TAURI__) {
+          display.drawText(hw - 8, hh + 4, '%c{yellow}[Q]uit');
+      }
     },
     handleInput: function(inputType, inputData) {
         // When [Enter] is pressed, go to the play screen
         if (inputType === 'keydown') {
-            if (inputData.keyCode === ROT.KEYS.VK_RETURN) {
+            if (inputData.keyCode === ROT.KEYS.VK_N) {
                 Game.switchScreen(Screen.playScreen);
+            } else if (inputData.keyCode === ROT.KEYS.VK_Q) {
+                invoke('exit_app')
             }
         }
     }
@@ -285,9 +291,9 @@ Screen.playScreen = {
                 if (items && items.length === 1) {
                     var item = items[0];
                     if (this._player.pickupItems([0])) {
-                        Game.sendMessage(this._player, "You pick up %s.", [item.describeA()]);
+                        sendMessage(this._player, "You pick up %s.", [item.describeA()]);
                     } else {
-                        Game.sendMessage(this._player, 'Your inventory is full!');
+                        sendMessage(this._player, 'Your inventory is full!');
                     }
                 } else {
                     this.showItemsSubScreen(Screen.pickupScreen, items,
@@ -344,7 +350,7 @@ Screen.playScreen = {
         if (items && subScreen.setup(this._player, items) > 0) {
             this.setSubScreen(subScreen);
         } else {
-            Game.sendMessage(this._player, emptyMessage);
+            sendMessage(this._player, emptyMessage);
             Game.refresh();
         }
     }
@@ -816,24 +822,24 @@ Screen.lookScreen = new Screen.TargetBasedScreen({
 
 Screen.lookScreen = new Screen.TargetBasedScreen({
     captionFunction: function(x, y) {
-        var z = this._player.getZ();
-        var map = this._player.getMap();
+        const z = this._player.getZ();
+        const map = this._player.getMap();
         // If the tile is explored, we can give a better capton
         if (map.isExplored(x, y, z)) {
             // If the tile isn't explored, we have to check if we can actually
             // see it before testing if there's an entity or item.
             if (this._visibleCells[x + ',' + y]) {
-                var items = map.getItemsAt(x, y, z);
+                const items = map.getItemsAt(x, y, z);
                 // If we have items, we want to render the top most item
                 if (items) {
-                    var item = items[items.length - 1];
+                    const item = items[items.length - 1];
                     return String.format('%s - %s (%s)',
                         item.getRepresentation(),
                         item.describeA(true),
                         item.details());
                 // Else check if there's an entity
                 } else if (map.getEntityAt(x, y, z)) {
-                    var entity = map.getEntityAt(x, y, z);
+                    const entity = map.getEntityAt(x, y, z);
                     return String.format('%s - %s (%s)',
                         entity.getRepresentation(),
                         entity.describeA(true),
@@ -858,9 +864,9 @@ Screen.lookScreen = new Screen.TargetBasedScreen({
 // Define our help screen
 Screen.helpScreen = {
     render: function(display) {
-        var text = 'Temple of Anguish -=- help -=-';
-        var border = '-------------';
-        var y = 3;
+        let text = 'Temple of Anguish -=- help -=-';
+        const border = '-------------';
+        let y = 3;
         display.drawText(Game.getScreenWidth() / 2 - text.length / 2, y++, text);
         display.drawText(Game.getScreenWidth() / 2 - text.length / 2, y++, border);
         display.drawText(0, y++, "The Queen's spies have tracked down the leader of Infinity Sect.");

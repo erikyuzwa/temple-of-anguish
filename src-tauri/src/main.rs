@@ -14,6 +14,12 @@ fn main() {
       }
       Ok(())
     })
+    .invoke_handler(tauri::generate_handler![exit_app])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
+}
+
+#[tauri::command]
+fn exit_app() {
+  std::process::exit(0x0);
 }
